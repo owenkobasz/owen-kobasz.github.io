@@ -1,9 +1,12 @@
 import emailjs from '@emailjs/browser';
-import { emailjsConfig } from './config.js';
+import { emailjsConfig, formConfig } from './config.js';
 
 export const sendEmail = async (formData) => {
     try {
-        console.log("Attempting to send email via EmailJS:", formData);
+        // Initialize EmailJS (safe to call multiple times)
+        if (emailjs.init && emailjsConfig.publicKey) {
+            emailjs.init(emailjsConfig.publicKey);
+        }
 
         const templateParams = {
             to_email: 'owenkobasz@gmail.com',
@@ -20,10 +23,31 @@ export const sendEmail = async (formData) => {
             emailjsConfig.publicKey
         );
 
-        console.log("Email sent successfully:", result);
-        return { success: true, result };
+        return { success: true, provider: 'emailjs', result };
     } catch (error) {
-        console.error("Error sending email:", error);
-        return { success: false, error: error.message };
+        // Optional fallback to Formspree if configured
+        if (formConfig.formspreeFormId) {
+            try {
+                const resp = await fetch(`https://formspree.io/f/${formConfig.formspreeFormId}`, {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: formData.name,
+                        email: formData.email,
+                        message: formData.message
+                    })
+                });
+                if (resp.ok) {
+                    const data = await resp.json().catch(() => ({}));
+                    return { success: true, provider: 'formspree', result: data };
+                } else {
+                    const data = await resp.json().catch(() => ({}));
+                    return { success: false, provider: 'formspree', error: data || { status: resp.status } };
+                }
+            } catch (fallbackErr) {
+                return { success: false, provider: 'formspree', error: fallbackErr?.message || fallbackErr };
+            }
+        }
+        return { success: false, provider: 'emailjs', error: error?.message || error };
     }
 };

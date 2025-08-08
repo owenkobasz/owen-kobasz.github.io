@@ -10,9 +10,9 @@ import reactImg from './assets/react.png';
 import expressImg from './assets/express.png';
 import jsImg from './assets/js.png';
 import cssImg from './assets/css.png';
-import mongoImg from './assets/mongo.png';
+import sqlImg from './assets/sql.png';
 import gitImg from './assets/git.png';
-import sassImg from './assets/sass.png';
+import pythonImg from './assets/python.png';
 import nextjsImg from './assets/nextjs.png';
 import nodeImg from './assets/node.png';
 import githubLogoImg from './assets/github-logo.png';
@@ -48,9 +48,9 @@ window.onload = function () {
     document.querySelector('.skills__item--npm img').src = expressImg;
     document.querySelector('.skills__item--js img').src = jsImg;
     document.querySelector('.skills__item--css img').src = cssImg;
-    document.querySelector('.skills__item--python img').src = mongoImg;
+    document.querySelector('.skills__item--sql img').src = sqlImg;
     document.querySelector('.skills__item--git img').src = gitImg;
-    document.querySelector('.skills__item--sass img').src = sassImg;
+    document.querySelector('.skills__item--python img').src = pythonImg;
     document.querySelector('.skills__item--webpack img').src = nextjsImg;
     document.querySelector('.skills__item--r img').src = nodeImg;
 
@@ -108,10 +108,10 @@ function aboutFadeIn(entries, observer) {
                     .classList.add('skills__item-fade-in');
             });
 
-            //sass
+            //python
             sleep(1400).then(() => {
                 document
-                    .querySelector('.skills__item--sass')
+                    .querySelector('.skills__item--python')
                     .classList.add('skills__item-fade-in');
             });
 
@@ -122,10 +122,10 @@ function aboutFadeIn(entries, observer) {
                     .classList.add('skills__item-fade-in');
             });
 
-            //py
+            //sql
             sleep(1600).then(() => {
                 document
-                    .querySelector('.skills__item--python')
+                    .querySelector('.skills__item--sql')
                     .classList.add('skills__item-fade-in');
             });
 
@@ -167,7 +167,10 @@ let options2 = {
 
 let observer = new IntersectionObserver(aboutFadeIn, options);
 
-observer.observe(document.querySelector('.about__content'));
+const aboutContentEl = document.querySelector('.about__content');
+if (aboutContentEl) {
+    observer.observe(aboutContentEl);
+}
 
 // navigation items in nav bar
 const navLinks = document.querySelectorAll('.navigation__item');
@@ -208,13 +211,18 @@ function navFadeInProjects(entries, observer) {
 
 let observerNav = new IntersectionObserver(navFadeIn, options);
 
-observerNav.observe(document.querySelector('#hero'));
-observerNav.observe(document.querySelector('#about'));
-observerNav.observe(document.querySelector('#contact'));
+const headerEl = document.querySelector('#header');
+const aboutEl = document.querySelector('#about');
+const contactEl = document.querySelector('#contact');
+
+if (headerEl) observerNav.observe(headerEl);
+if (aboutEl) observerNav.observe(aboutEl);
+if (contactEl) observerNav.observe(contactEl);
 
 let observerNavProjects = new IntersectionObserver(navFadeInProjects, options2);
 
-observerNavProjects.observe(document.querySelector('#projects'));
+const projectsEl = document.querySelector('#projects');
+if (projectsEl) observerNavProjects.observe(projectsEl);
 
 // parralax scrolling effect on hero canvas
 

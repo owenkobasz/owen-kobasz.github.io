@@ -6,6 +6,7 @@ src/config.js
 npm-debug.log*
 yarn-error.log
 pnpm-debug.log
+inspo/
 .env
 .env.*
 !.env.example
