@@ -1,0 +1,16 @@
+node_modules
+src/config.js
+.DS_Store
+.vscode/
+.idea/
+npm-debug.log*
+yarn-error.log
+pnpm-debug.log
+.env
+.env.*
+!.env.example
+.eslintcache
+.cache/
+.sass-cache/
+.parcel-cache/
+*.map
