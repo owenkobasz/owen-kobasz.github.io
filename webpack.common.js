@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: './src/index.js',
@@ -37,6 +38,12 @@ module.exports = {
                     ]
                 }
             }
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: 'CNAME', to: '' },
+                { from: 'src/assets/fav.png', to: 'assets/fav.png' }
+            ]
         })
     ]
 };
