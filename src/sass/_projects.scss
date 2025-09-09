@@ -383,13 +383,12 @@
 
 // Mobile full-bleed projects
 @media (max-width: 560px) {
-  /* Stack vertically; remove desktop offsets/overlaps */
+
   .project {
     display: flex !important;
     flex-direction: column !important;
   }
 
-  /* Full-bleed image */
   .project__image-container {
     order: 0 !important;
     width: 100vw !important;
@@ -409,14 +408,13 @@
 
   .project__image-image,
   .project__image-image img {
-    position: relative !important;  /* was absolute on desktop */
+    position: relative !important;
     display: block !important;
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
   }
 
-  /* Info card: full-bleed with comfortable padding */
   .project__info {
     order: 1 !important;
     width: 100vw !important;
@@ -429,7 +427,7 @@
     margin: 0 !important;
   }
 
-  /* Cancel left/right variant offsets on mobile */
+  // Cancel left/right variant offsets on mobile
   .project-left .project__info,
   .project-right .project__info {
     left: auto !important;
@@ -438,6 +436,6 @@
   }
 }
 
-/* Avoid stray horizontal scroll from full-bleed */
+// Avoid stray horizontal scroll from full-bleed 
 html, body { overflow-x: hidden; }
 
