@@ -1,6 +1,6 @@
 # My Portfolio Site
 
-Hey there! This is my personal portfolio website. You can check it out live at [owenkobasz.com](https://owenkobasz.com).
+Hi! This is my personal portfolio website. You can check it out live at [owenkobasz.com](https://owenkobasz.com).
 
 ## What's This About?
 
