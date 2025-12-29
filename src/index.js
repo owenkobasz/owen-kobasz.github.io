@@ -3,6 +3,7 @@ import canvasDots from './headerCanvas.js';
 import canvasDotsBg from './backgroundCanvas.js';
 import Typed from 'typed.js';
 import { sendEmail } from './emailjs.js';
+import { initSkillTooltips } from './tooltip.js';
 
 // Import all images
 import htmlImg from './assets/html.png';
@@ -173,6 +174,9 @@ window.onload = function () {
     
     // Apply colors to skills
     applyColorsToSkills();
+    
+    // Initialize skill tooltips
+    initSkillTooltips();
 };
 
 // loads in about section on scroll

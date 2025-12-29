@@ -1,0 +1,70 @@
+.skill-tooltip {
+  position: fixed;
+  z-index: 10000; // High z-index to sit above canvas and all content
+  pointer-events: none; // Allow clicks to pass through when not visible
+  
+  max-width: 260px;
+  padding: 0.8rem 1rem;
+  
+  background-color: rgba(26, 26, 26, 0.95); // Dark translucent background
+  border: 1px solid rgba(100, 149, 237, 0.4); // Subtle border glow
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 
+              0 0 8px rgba(100, 149, 237, 0.2); // Shadow + subtle glow
+  
+  color: #fafafa;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  text-align: left;
+  white-space: pre-line; // Preserve line breaks from \n or &#10;
+  word-wrap: break-word;
+  
+  // Initial state (hidden)
+  opacity: 0;
+  transform: translateY(-4px) scale(0.95);
+  transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+  
+  // Visible state
+  &--visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto; // Enable pointer events when visible (for hover)
+  }
+  
+  // Responsive adjustments - larger text on tablet and mobile for better readability
+  @media (max-width: 1024px) {
+    max-width: 280px;
+    padding: 1rem 1.2rem;
+    font-size: 1.5rem;
+    line-height: 1.6;
+  }
+  
+  @media (max-width: 600px) {
+    max-width: 300px;
+    padding: 1.1rem 1.3rem;
+    font-size: 1.7rem;
+    line-height: 1.7;
+  }
+  
+  @media (max-width: 400px) {
+    max-width: 320px;
+    padding: 1.2rem 1.4rem;
+    font-size: 1.8rem;
+    line-height: 1.7;
+  }
+}
+
+// Ensure skill tiles are focusable and have proper cursor
+.skills__item {
+  cursor: pointer;
+  
+  &:focus {
+    outline: 2px solid rgba(100, 149, 237, 0.6);
+    outline-offset: 2px;
+  }
+  
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
