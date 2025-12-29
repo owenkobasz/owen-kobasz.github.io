@@ -6,21 +6,27 @@ import { sendEmail } from './emailjs.js';
 
 // Import all images
 import htmlImg from './assets/html.png';
-import reactImg from './assets/react.png';
-import expressImg from './assets/express.png';
+import unrealImg from './assets/unreal.svg';
+import brainEngineImg from './assets/brain-engine.svg';
 import jsImg from './assets/js.png';
 import cssImg from './assets/css.png';
-import sqlImg from './assets/sql.png';
-import gitImg from './assets/git.png';
-import pythonImg from './assets/python.png';
-import nextjsImg from './assets/nextjs.png';
-import nodeImg from './assets/node.png';
+import dockerImg from './assets/docker.svg';
+import globeImg from './assets/globe.svg';
+import pythonImg from './assets/snake.svg';
+import sqlSvgImg from './assets/SQL.svg';
+import puzzleImg from './assets/puzzle.svg';
 import githubLogoImg from './assets/github-logo.png';
 import mailImg from './assets/mail.png';
 import linkedinLogoImg from './assets/linkedin_logo.png';
 import aboutImg from './assets/about.jpg';
 import turboImg from './assets/turbo.jpg';
 import cycloneImg from './assets/cyclone.jpg';
+import clipboardImg from './assets/clipboard.svg';
+import briefcaseImg from './assets/briefcase-2.svg';
+import webdev from './assets/web-dev.svg';
+import algorithms from './assets/Algorithms.svg';
+import serverImg from './assets/server.svg';
+
 
 // Import resume
 import resumeFile from './assets/resume.pdf';
@@ -42,17 +48,41 @@ window.onload = function () {
     }
 
     // Set image sources after webpack processes them
-    document.querySelector('.profile__picture img').src = aboutImg;
-    document.querySelector('.skills__item--html img').src = htmlImg;
-    document.querySelector('.skills__item--react img').src = reactImg;
-    document.querySelector('.skills__item--npm img').src = expressImg;
-    document.querySelector('.skills__item--js img').src = jsImg;
-    document.querySelector('.skills__item--css img').src = cssImg;
-    document.querySelector('.skills__item--sql img').src = sqlImg;
-    document.querySelector('.skills__item--git img').src = gitImg;
-    document.querySelector('.skills__item--python img').src = pythonImg;
-    document.querySelector('.skills__item--webpack img').src = nextjsImg;
-    document.querySelector('.skills__item--r img').src = nodeImg;
+    const profileImg = document.querySelector('.profile__picture img');
+    if (profileImg) profileImg.src = aboutImg;
+    
+    const webdevImg = document.querySelector('.skills__item--webdev img');
+    if (webdevImg) webdevImg.src = webdev;
+    
+    const algorithmsImg = document.querySelector('.skills__item--algorithms img');
+    if (algorithmsImg) algorithmsImg.src = algorithms;
+    
+    const backendImgEl = document.querySelector('.skills__item--backend img');
+    if (backendImgEl) backendImgEl.src = serverImg;
+    
+    const llmImg = document.querySelector('.skills__item--llm img');
+    if (llmImg) llmImg.src = brainEngineImg;
+    
+    const jsImgEl = document.querySelector('.skills__item--js img');
+    if (jsImgEl) jsImgEl.src = jsImg;
+    
+    const simulationImgEl = document.querySelector('.skills__item--simulation img');
+    if (simulationImgEl) simulationImgEl.src = unrealImg;
+    
+    const devtoolImgEl = document.querySelector('.skills__item--devtool img');
+    if (devtoolImgEl) devtoolImgEl.src = dockerImg;
+    
+    const geospatialImgEl = document.querySelector('.skills__item--geospatial img');
+    if (geospatialImgEl) geospatialImgEl.src = globeImg;
+    
+    const pythonImgEl = document.querySelector('.skills__item--python img');
+    if (pythonImgEl) pythonImgEl.src = pythonImg;
+    
+    const datamodelImg = document.querySelector('.skills__item--datamodel img');
+    if (datamodelImg) datamodelImg.src = sqlSvgImg;
+    
+    const problemSolvingImg = document.querySelector('.skills__item--problemsolving img');
+    if (problemSolvingImg) problemSolvingImg.src = puzzleImg;
 
     // Project images
     document.querySelector('.project-left .project__image-image img').src = cycloneImg;
@@ -63,8 +93,12 @@ window.onload = function () {
     document.querySelector('.socials__email img').src = mailImg;
     document.querySelector('.socials__linkedin img').src = linkedinLogoImg;
 
-    // Set resume link
+    // Set resume link and briefcase icon
     document.getElementById('resume-link').href = resumeFile;
+    const resumeClipboard = document.querySelector('.heading-cta--resume img');
+    if (resumeClipboard) {
+        resumeClipboard.src = briefcaseImg;
+    }
 };
 
 // loads in about section on scroll
@@ -80,31 +114,31 @@ function aboutFadeIn(entries, observer) {
                 return new Promise((resolve) => setTimeout(resolve, milliseconds));
             };
 
-            //html
+            //webdev
             sleep(1000).then(() => {
                 document
-                    .querySelector('.skills__item--html')
+                    .querySelector('.skills__item--webdev')
                     .classList.add('skills__item-fade-in');
             });
 
-            //webpack
+            //datamodel
             sleep(1100).then(() => {
                 document
-                    .querySelector('.skills__item--webpack')
+                    .querySelector('.skills__item--datamodel')
                     .classList.add('skills__item-fade-in');
             });
 
-            //js
+            //algorithms
             sleep(1200).then(() => {
                 document
-                    .querySelector('.skills__item--js')
+                    .querySelector('.skills__item--algorithms')
                     .classList.add('skills__item-fade-in');
             });
 
-            //git
+            //geospatial
             sleep(1300).then(() => {
                 document
-                    .querySelector('.skills__item--git')
+                    .querySelector('.skills__item--geospatial')
                     .classList.add('skills__item-fade-in');
             });
 
@@ -115,38 +149,38 @@ function aboutFadeIn(entries, observer) {
                     .classList.add('skills__item-fade-in');
             });
 
-            //node
+            //llm
             sleep(1500).then(() => {
                 document
-                    .querySelector('.skills__item--npm')
+                    .querySelector('.skills__item--llm')
                     .classList.add('skills__item-fade-in');
             });
 
-            //sql
+            //devtool
             sleep(1600).then(() => {
                 document
-                    .querySelector('.skills__item--sql')
+                    .querySelector('.skills__item--devtool')
                     .classList.add('skills__item-fade-in');
             });
 
-            //react
+            //backend
             sleep(1700).then(() => {
                 document
-                    .querySelector('.skills__item--react')
+                    .querySelector('.skills__item--backend')
                     .classList.add('skills__item-fade-in');
             });
 
-            //r
+            //problemsolving
             sleep(1800).then(() => {
                 document
-                    .querySelector('.skills__item--r')
+                    .querySelector('.skills__item--problemsolving')
                     .classList.add('skills__item-fade-in');
             });
 
-            //css
+            //simulation
             sleep(1900).then(() => {
                 document
-                    .querySelector('.skills__item--css')
+                    .querySelector('.skills__item--simulation')
                     .classList.add('skills__item-fade-in');
             });
         }

@@ -200,4 +200,11 @@
       width: 16px;
     }
   }
+
+  &-cta--resume {
+    .heading__arrow {
+      transform: rotate(0deg);
+      filter: brightness(0) saturate(100%) invert(58%) sepia(89%) saturate(1234%) hue-rotate(195deg) brightness(98%) contrast(92%) drop-shadow(0 0 0.5px rgb(100, 149, 237)) drop-shadow(0 0 0.5px rgb(100, 149, 237));
+    }
+  }
 } 

@@ -261,9 +261,41 @@
     &--js img {
       border-radius: 5px;
     }
-  }
-}
 
-.skills__item--webpack img {
-  border-radius: 50%;
+    &--algorithms img {
+      filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(194deg) brightness(102%) contrast(91%);
+    }
+
+    &--python img {
+      filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(194deg) brightness(102%) contrast(91%);
+    }
+
+    &--backend img {
+      filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(194deg) brightness(102%) contrast(91%);
+    }
+
+    &--simulation img {
+      filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(194deg) brightness(102%) contrast(91%);
+    }
+
+    &--datamodel img {
+      filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(194deg) brightness(102%) contrast(91%);
+    }
+
+    &--devtool img {
+      filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(194deg) brightness(102%) contrast(91%);
+    }
+
+    &--llm img {
+      filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(194deg) brightness(102%) contrast(91%);
+    }
+
+    &--problemsolving img {
+      filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(194deg) brightness(102%) contrast(91%);
+    }
+
+    &--geospatial img {
+      filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(194deg) brightness(102%) contrast(91%);
+    }
+  }
 }
