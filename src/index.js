@@ -31,6 +31,77 @@ import serverImg from './assets/server.svg';
 // Import resume
 import resumeFile from './assets/resume.pdf';
 
+// Color palette for skills section
+const skillColors = {
+    'webdev': 'rgb(100, 149, 237)',        // Cornflower Blue
+    'llm': 'rgb(255, 182, 193)',           // Light Pink
+    'problemsolving': 'rgb(255, 218, 185)', // Peach
+    'backend': 'rgb(144, 238, 144)',        // Light Green
+    'algorithms': 'rgb(255, 160, 122)',     // Light Salmon
+    'devtool': 'rgb(221, 160, 221)',        // Plum
+    'geospatial': 'rgb(240, 128, 128)',      // Light Coral
+    'python': 'rgb(255, 250, 205)',         // Lemon Chiffon
+    'datamodel': 'rgb(255, 192, 203)',      // Pink
+    'simulation': 'rgb(176, 224, 230)'      // Powder Blue
+};
+
+// Convert RGB to CSS filter for SVG coloring
+function rgbToCssFilter(rgb) {
+    const match = rgb.match(/\d+/g);
+    if (!match || match.length !== 3) return '';
+    
+    const r = parseInt(match[0]) / 255;
+    const g = parseInt(match[1]) / 255;
+    const b = parseInt(match[2]) / 255;
+    
+    // Calculate brightness (luminance)
+    const brightness = 0.299 * r + 0.587 * g + 0.114 * b;
+    
+    // Calculate hue and saturation
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const delta = max - min;
+    
+    let hue = 0;
+    if (delta !== 0) {
+        if (max === r) {
+            hue = ((g - b) / delta) % 6;
+        } else if (max === g) {
+            hue = (b - r) / delta + 2;
+        } else {
+            hue = (r - g) / delta + 4;
+        }
+    }
+    hue = hue * 60;
+    if (hue < 0) hue += 360;
+    
+    const saturation = max === 0 ? 0 : delta / max;
+    const invertAmount = Math.max(0, Math.min(100, brightness * 100));
+    
+    return `brightness(0) saturate(100%) invert(${invertAmount}%) sepia(${Math.round(saturation * 100)}%) hue-rotate(${Math.round(hue)}deg) saturate(${Math.round(saturation * 300 + 100)}%) brightness(${Math.round((brightness * 0.8 + 0.2) * 100)}%)`;
+}
+
+// Apply colors to skills
+function applyColorsToSkills() {
+    const backgroundColor = getComputedStyle(document.body).backgroundColor || 'rgb(26, 26, 26)';
+    
+    Object.keys(skillColors).forEach((skillKey) => {
+        const item = document.querySelector(`.skills__item--${skillKey}`);
+        if (item) {
+            const color = skillColors[skillKey];
+            
+            // Apply color to border
+            item.style.backgroundImage = `linear-gradient(${backgroundColor}, ${backgroundColor}), radial-gradient(circle at top left, ${color}, ${color})`;
+            
+            // Apply color to SVG image
+            const img = item.querySelector('img');
+            if (img) {
+                img.style.filter = rgbToCssFilter(color);
+            }
+        }
+    });
+}
+
 window.onload = function () {
     canvasDotsBg();
     canvasDots();
@@ -99,6 +170,9 @@ window.onload = function () {
     if (resumeClipboard) {
         resumeClipboard.src = briefcaseImg;
     }
+    
+    // Apply colors to skills
+    applyColorsToSkills();
 };
 
 // loads in about section on scroll
