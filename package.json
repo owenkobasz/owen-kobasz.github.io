@@ -1,9 +1,12 @@
 {
   "scripts": {
-    "dev": "webpack serve --config webpack.dev.js --mode development",
-    "serve": "webpack serve --config webpack.dev.js --mode development",
-    "start": "webpack serve --config webpack.dev.js --mode development",
-    "build": "webpack --config webpack.prod.js --mode production"
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "node server.js",
+    "dev:client": "webpack serve --config webpack.dev.js --mode development",
+    "serve": "npm run dev",
+    "start": "NODE_ENV=production node server.js",
+    "build": "webpack --config webpack.prod.js --mode production",
+    "build:start": "npm run build && npm run start"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^12.0.2",
@@ -24,6 +27,11 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
-    "typed.js": "^2.1.0"
+    "typed.js": "^2.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "openai": "^4.28.0",
+    "concurrently": "^8.2.2"
   }
 }

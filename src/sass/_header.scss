@@ -28,6 +28,230 @@
   // z-index: -1;
 }
 
+.hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.rangefinder-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  display: none; // Hidden for now, but code preserved
+
+  // Outer border
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 3px solid white;
+    box-sizing: border-box;
+  }
+
+  // Inner dashed frame
+  &::after {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    width: 70%;
+    height: 70%;
+    border: 2px dashed white;
+    box-sizing: border-box;
+  }
+}
+
+// Corner brackets (L-shaped with rounded outer edges)
+.rangefinder-corner {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  z-index: 2;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    background: white;
+  }
+
+  // Top-left corner
+  &--tl {
+    top: 15%;
+    left: 15%;
+
+    &::before {
+      top: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      border-radius: 0 0 0 3px;
+    }
+
+    &::after {
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 50px;
+      border-radius: 0 0 3px 0;
+    }
+  }
+
+  // Top-right corner
+  &--tr {
+    top: 15%;
+    right: 15%;
+
+    &::before {
+      top: 0;
+      right: 0;
+      width: 50px;
+      height: 3px;
+      border-radius: 0 0 3px 0;
+    }
+
+    &::after {
+      top: 0;
+      right: 0;
+      width: 3px;
+      height: 50px;
+      border-radius: 3px 0 0 0;
+    }
+  }
+
+  // Bottom-left corner
+  &--bl {
+    bottom: 15%;
+    left: 15%;
+
+    &::before {
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      border-radius: 3px 0 0 0;
+    }
+
+    &::after {
+      bottom: 0;
+      left: 0;
+      width: 3px;
+      height: 50px;
+      border-radius: 0 3px 0 0;
+    }
+  }
+
+  // Bottom-right corner
+  &--br {
+    bottom: 15%;
+    right: 15%;
+
+    &::before {
+      bottom: 0;
+      right: 0;
+      width: 50px;
+      height: 3px;
+      border-radius: 0 3px 0 0;
+    }
+
+    &::after {
+      bottom: 0;
+      right: 0;
+      width: 3px;
+      height: 50px;
+      border-radius: 0 0 0 3px;
+    }
+  }
+}
+
+// Center marks on each side
+.rangefinder-mark {
+  position: absolute;
+  background: white;
+  z-index: 2;
+
+  &--top {
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 3px;
+  }
+
+  &--bottom {
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 3px;
+  }
+
+  &--left {
+    top: 50%;
+    left: 15%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 30px;
+  }
+
+  &--right {
+    top: 50%;
+    right: 15%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 30px;
+  }
+}
+
+// Center patch (circular with split - upper half shaded, lower half transparent)
+.rangefinder-center-patch {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 2;
+  
+  // Split line in the middle
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-sizing: border-box;
+  
+  // Upper half lightly shaded, lower half transparent
+  background: linear-gradient(
+    to bottom,
+    rgba(200, 200, 200, 0.4) 0%,
+    rgba(200, 200, 200, 0.4) 50%,
+    transparent 50%,
+    transparent 100%
+  );
+}
+
 .heading {
   position: relative;
   align-self: center;
@@ -44,6 +268,7 @@
 
   color: $color-text;
   font-weight: 300;
+  font-family: 'Canela', serif;
 
   z-index: 999;
 
@@ -51,7 +276,7 @@
     animation-name: moveInLeft;
 
     & span {
-      color: rgb(100, 149, 237);
+      color: white;
       font-weight: 400;
     }
   }
@@ -63,7 +288,7 @@
   &__line-1,
   &__line-2 {
     font-size: 6rem;
-    background-color: (rgba($color-background, 0.25));
+    background-color: transparent;
 
     animation-duration: 1.4s;
     animation-timing-function: cubic-bezier(0.21, 1.11, 0.81, 0.99);
@@ -104,11 +329,11 @@
     width: 20rem;
     height: 4.8rem;
 
-    background-color: rgba($color-background, 0.6);
-    border: 2px solid rgb(100, 149, 237);
+    background-color: transparent;
+    border: 2px solid white;
     border-radius: 2px;
 
-    color: rgb(100, 149, 237);
+    color: white;
     font-size: 2.4rem;
     font-weight: 500;
 
@@ -145,7 +370,7 @@
       height: 100%;
 
       border-radius: inherit;
-      border: 2px solid rgb(100, 149, 237);
+      border: 2px solid white;
 
       filter: blur(0);
       transform-origin: 50%;
@@ -182,7 +407,7 @@
     // margin-bottom: -3px;
     transform: rotate(90deg);
 
-    fill: rgb(100, 149, 237);
+    fill: white;
 
     transition: all 0.3s;
 
@@ -204,7 +429,7 @@
   &-cta--resume {
     .heading__arrow {
       transform: rotate(0deg);
-      filter: brightness(0) saturate(100%) invert(58%) sepia(89%) saturate(1234%) hue-rotate(195deg) brightness(98%) contrast(92%) drop-shadow(0 0 0.5px rgb(100, 149, 237)) drop-shadow(0 0 0.5px rgb(100, 149, 237));
+      filter: brightness(0) saturate(100%) invert(100%) drop-shadow(0 0 0.5px white) drop-shadow(0 0 0.5px white);
     }
   }
 } 

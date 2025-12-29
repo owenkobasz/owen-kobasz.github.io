@@ -1,5 +1,30 @@
 // Removed Google Fonts imports since we're using Helvetica
 
+// Canela font face
+@font-face {
+  font-family: 'Canela';
+  src: url('../assets/fonts/Canela_Collection/Canela Family/Canela-Regular-Trial.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Canela';
+  src: url('../assets/fonts/Canela_Collection/Canela Family/Canela-Bold-Trial.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Canela';
+  src: url('../assets/fonts/Canela_Collection/Canela Family/Canela-Light-Trial.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 $color-text: #fafafa;
 $color-red: rgb(100, 149, 237);
 $color-background: rgb(26, 26, 26);

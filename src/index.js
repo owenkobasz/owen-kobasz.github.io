@@ -1,9 +1,10 @@
 import './sass/main.scss';
-import canvasDots from './headerCanvas.js';
+// import canvasDots from './headerCanvas.js';
 import canvasDotsBg from './backgroundCanvas.js';
 import Typed from 'typed.js';
 import { sendEmail } from './emailjs.js';
 import { initSkillTooltips } from './tooltip.js';
+import AIHeroModal from './aiHeroModal.js';
 
 // Import all images
 import htmlImg from './assets/html.png';
@@ -27,6 +28,7 @@ import briefcaseImg from './assets/briefcase-2.svg';
 import webdev from './assets/web-dev.svg';
 import algorithms from './assets/Algorithms.svg';
 import serverImg from './assets/server.svg';
+import annunciationImg from './assets/Annunciation.png';
 
 
 // Import resume
@@ -105,7 +107,7 @@ function applyColorsToSkills() {
 
 window.onload = function () {
     canvasDotsBg();
-    canvasDots();
+    // canvasDots(); // Replaced with static image
 
     // Typed Initiate
     if (document.querySelector('.typed-text-output')) {
@@ -120,6 +122,9 @@ window.onload = function () {
     }
 
     // Set image sources after webpack processes them
+    const heroImage = document.querySelector('.hero-image');
+    if (heroImage) heroImage.src = annunciationImg;
+    
     const profileImg = document.querySelector('.profile__picture img');
     if (profileImg) profileImg.src = aboutImg;
     
@@ -177,6 +182,9 @@ window.onload = function () {
     
     // Initialize skill tooltips
     initSkillTooltips();
+    
+    // Initialize AI Hero Modal
+    new AIHeroModal();
 };
 
 // loads in about section on scroll

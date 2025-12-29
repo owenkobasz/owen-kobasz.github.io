@@ -23,6 +23,7 @@ module.exports = {
             ] },
             { test: /\.(png|jpe?g|svg|gif)$/i, type: 'asset/resource' },
             { test: /\.pdf$/i, type: 'asset/resource', generator: { filename: 'files/[name].[contenthash][ext]' } },
+            { test: /\.(woff|woff2|eot|ttf|otf)$/i, type: 'asset/resource', generator: { filename: 'fonts/[name].[contenthash][ext]' } },
         ]
     },
     plugins: [

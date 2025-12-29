@@ -18,12 +18,26 @@
 <body>
 <div class="header" id="header">
     <div class="canvas">
-        <canvas class="connecting-dots"></canvas>
+        <img class="hero-image" src="./assets/Annunciation.png" alt="Hero background" />
+        <div class="image-overlay"></div>
+        <div class="rangefinder-overlay">
+          <div class="rangefinder-corner rangefinder-corner--tl"></div>
+          <div class="rangefinder-corner rangefinder-corner--tr"></div>
+          <div class="rangefinder-corner rangefinder-corner--bl"></div>
+          <div class="rangefinder-corner rangefinder-corner--br"></div>
+          <div class="rangefinder-mark rangefinder-mark--top"></div>
+          <div class="rangefinder-mark rangefinder-mark--bottom"></div>
+          <div class="rangefinder-mark rangefinder-mark--left"></div>
+          <div class="rangefinder-mark rangefinder-mark--right"></div>
+          <div class="rangefinder-center-patch"></div>
+        </div>
     </div>
+    <button class="ai-hero-open-btn" id="ai-hero-open-btn">Generate hero image</button>
+    <button class="ai-hero-reset-btn" id="ai-hero-reset-btn">Reset to default</button>
     <div class="heading">
         <div class="heading__line-1">Hello, I'm <span>Owen</span>.</div>
         <div class="heading__line-2">I'm a <span class="typed-text-output"></span></div>
-        <div class="typed-text" style="display: none;">software engineer., critical thinker., full stack developer., problem solver., Python instructor and mentor., curator., human.</div>
+        <div class="typed-text" style="display: none;">software engineer., critical thinker., full stack developer., problem solver., Python instructor., curator., human.</div>
         <div class="heading__buttons">
             <a href="#about" class="heading__link">
                 <div class="heading-cta">
