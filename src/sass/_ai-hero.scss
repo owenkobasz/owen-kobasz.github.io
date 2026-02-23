@@ -426,7 +426,6 @@
   position: absolute;
   bottom: 2rem;
   right: 2rem;
-  transform: translateY(-4rem); // stack above generate/reset controls
   z-index: 1000;
   padding: 0.8rem 1.6rem;
   background-color: rgba(0, 0, 0, 0.6);
@@ -443,11 +442,11 @@
   &:hover {
     background-color: rgba(0, 0, 0, 0.8);
     border-color: rgba(255, 255, 255, 0.5);
-    transform: translateY(-4.2rem);
+    transform: translateY(-2px);
   }
 
   &:active {
-    transform: translateY(-3.8rem);
+    transform: translateY(0);
   }
 
   @media (max-width: 700px) {

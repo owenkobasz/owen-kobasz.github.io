@@ -151,12 +151,12 @@ function showDefaultHeroInfo() {
 
     hideMetProgress();
 
-    titleEl.textContent = 'The Annunciation';
+    titleEl.textContent = 'The Annunciation (Redux)';
     metaEl.textContent = 'AI Generated';
     linkEl.removeAttribute('href');
     linkEl.style.textDecoration = 'none';
     linkEl.style.cursor = 'default';
-    if (sourceEl) sourceEl.textContent = 'Where classical themes meet modern technology';
+    if (sourceEl) sourceEl.textContent = 'A contemporary reinterpretation of a biblical scene; the state of connection and isolation.';
     container.style.display = 'flex';
 }
 
