@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello World: Welcome to the Blog | Owen Kobasz</title>
+    <meta name="description" content="First post on the blog — a quick look at what&apos;s coming and how this site was built." />
+    <link rel="canonical" href="https://owenkobasz.com/blog/hello-world" />
+    <link rel="icon" href="/assets/fav.png" sizes="32x32" type="image/png" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Hello World: Welcome to the Blog" />
+    <meta property="og:description" content="First post on the blog — a quick look at what&apos;s coming and how this site was built." />
+    <meta property="og:url" content="https://owenkobasz.com/blog/hello-world" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Owen Kobasz" />
+    
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Hello World: Welcome to the Blog" />
+    <meta name="twitter:description" content="First post on the blog — a quick look at what&apos;s coming and how this site was built." />
+    
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" title="Owen Kobasz Blog" href="/blog/rss.xml" />
+
+    <meta name="theme-color" content="#51a2e9" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Hello World: Welcome to the Blog",
+        "description": "First post on the blog — a quick look at what&apos;s coming and how this site was built.",
+        "datePublished": "2026-02-23",
+        "author": {
+            "@type": "Person",
+            "name": "Owen Kobasz"
+        },
+        "url": "https://owenkobasz.com/blog/hello-world",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://owenkobasz.com/blog/hello-world"
+        }
+    }
+    </script>
+
+    <link rel="stylesheet" href="/blog.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+
+    <!-- analytics: none configured -->
+</head>
+<body>
+    <div class="reading-progress" id="reading-progress"></div>
+
+    <header class="blog-nav">
+        <button class="blog-nav__toggle" id="blog-nav-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="blog-nav-overlay">
+            <img src="/assets/menu.svg" alt="Menu" width="24" height="24" />
+        </button>
+    </header>
+
+    <div class="blog-nav-overlay" id="blog-nav-overlay" role="dialog" aria-label="Navigation">
+        <button class="blog-nav-overlay__close" id="blog-nav-close" aria-label="Close navigation">&times;</button>
+        <ul class="blog-nav-overlay__links">
+            <li><a href="/" class="blog-nav-overlay__link">Home</a></li>
+            <li><a href="/#about" class="blog-nav-overlay__link">About</a></li>
+            <li><a href="/#projects" class="blog-nav-overlay__link">Projects</a></li>
+            <li><a href="/blog" class="blog-nav-overlay__link blog-nav-overlay__link--active">Blog</a></li>
+            <li><a href="/#contact" class="blog-nav-overlay__link">Contact</a></li>
+        </ul>
+    </div>
+
+    <article class="blog-post">
+        <header class="blog-post__header">
+            <a href="/blog" class="blog-post__back">&larr; All posts</a>
+            <h1 class="blog-post__title">Hello World: Welcome to the Blog</h1>
+            <div class="blog-post__meta">
+                <time class="blog-post__date" datetime="2026-02-23">February 22, 2026</time>
+                <span class="blog-post__reading-time">1 min read</span>
+            </div>
+            <div class="blog-post__tags"><span class="blog-post__tag">meta</span><span class="blog-post__tag">web-dev</span></div>
+        </header>
+
+        <div class="blog-content">
+            <h2 id="why-a-blog" tabindex="-1">Why a blog? <a class="header-anchor" href="#why-a-blog" aria-hidden="true">#</a></h2>
+<p>I’ve been building things for a while now — APIs, routing algorithms, simulation tools, AI-integrated systems — and I wanted a place to write about the process. Not just finished products, but the decisions, trade-offs, and dead ends that come with real engineering work.</p>
+<p>This blog is that place.</p>
+<h2 id="what-to-expect" tabindex="-1">What to expect <a class="header-anchor" href="#what-to-expect" aria-hidden="true">#</a></h2>
+<p>Posts here will cover:</p>
+<ul>
+<li><strong>Technical deep-dives</strong> — walking through architecture decisions, interesting algorithms, or tools I’ve built</li>
+<li><strong>Project write-ups</strong> — the story behind projects like Cyclone and Turbo</li>
+<li><strong>Explorations</strong> — things I’m learning, experimenting with, or thinking through</li>
+</ul>
+<h2 id="how-this-blog-works" tabindex="-1">How this blog works <a class="header-anchor" href="#how-this-blog-works" aria-hidden="true">#</a></h2>
+<p>The blog is pre-rendered at build time from Markdown files. Each post is a <code>.md</code> file with YAML frontmatter for metadata. A build script converts them to static HTML with full SEO, RSS, and syntax highlighting. No client-side framework, no JavaScript required to read a post.</p>
+<p>Here’s a quick code example to show off syntax highlighting:</p>
+<pre class="hljs"><code><span class="hljs-keyword">def</span> <span class="hljs-title function_">greet</span>(<span class="hljs-params">name: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;Hello, <span class="hljs-subst">{name}</span>!&quot;</span>
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    <span class="hljs-built_in">print</span>(greet(<span class="hljs-string">&quot;world&quot;</span>))
+</code></pre>
+<p>The whole system is designed to be portable — when the site eventually moves to Astro, the Markdown files transfer with zero modifications.</p>
+<h2 id="what-s-next" tabindex="-1">What’s next <a class="header-anchor" href="#what-s-next" aria-hidden="true">#</a></h2>
+<p>More posts soon. Stay tuned.</p>
+
+        </div>
+    </article>
+
+    <footer class="footer" style="text-align:center; padding:4rem 2rem; font-size:1.4rem; color:rgba(250,250,250,0.4);">
+        <p>&copy; 2025 Owen Kobasz</p>
+    </footer>
+
+    <script>
+    (function() {
+        var bar = document.getElementById('reading-progress');
+        if (bar) {
+            window.addEventListener('scroll', function() {
+                var h = document.documentElement;
+                var pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+                bar.style.width = Math.min(pct, 100) + '%';
+            }, { passive: true });
+        }
+
+        var overlay  = document.getElementById('blog-nav-overlay');
+        var toggle   = document.getElementById('blog-nav-toggle');
+        var closeBtn = document.getElementById('blog-nav-close');
+        if (!overlay || !toggle) return;
+
+        function openNav() {
+            overlay.classList.add('blog-nav-overlay--open');
+            toggle.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeNav() {
+            overlay.classList.remove('blog-nav-overlay--open');
+            toggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
+        toggle.addEventListener('click', openNav);
+        if (closeBtn) closeBtn.addEventListener('click', closeNav);
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) closeNav();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeNav();
+        });
+    })();
+    </script>
+</body>
+</html>

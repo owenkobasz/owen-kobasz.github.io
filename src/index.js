@@ -140,21 +140,39 @@ function hideMetProgress() {
     }
 }
 
+function showDefaultHeroInfo() {
+    const container = document.getElementById('met-attr');
+    const titleEl = document.getElementById('met-attr-title');
+    const metaEl = document.getElementById('met-attr-meta');
+    const linkEl = document.getElementById('met-attr-link');
+    const sourceEl = document.getElementById('met-attr-source');
+
+    if (!container || !titleEl || !metaEl || !linkEl) return;
+
+    hideMetProgress();
+
+    titleEl.textContent = 'The Annunciation';
+    metaEl.textContent = 'AI Generated';
+    linkEl.removeAttribute('href');
+    linkEl.style.textDecoration = 'none';
+    linkEl.style.cursor = 'default';
+    if (sourceEl) sourceEl.textContent = 'Where classical themes meet modern technology';
+    container.style.display = 'flex';
+}
+
 function updateMetAttribution(artwork) {
     const container = document.getElementById('met-attr');
     const titleEl = document.getElementById('met-attr-title');
     const metaEl = document.getElementById('met-attr-meta');
     const linkEl = document.getElementById('met-attr-link');
+    const sourceEl = document.getElementById('met-attr-source');
 
     if (!container || !titleEl || !metaEl || !linkEl) return;
 
     hideMetProgress();
 
     if (!artwork || !artwork.imageUrl || !artwork.objectURL) {
-        container.style.display = 'none';
-        titleEl.textContent = '';
-        metaEl.textContent = '';
-        linkEl.removeAttribute('href');
+        showDefaultHeroInfo();
         return;
     }
 
@@ -166,6 +184,9 @@ function updateMetAttribution(artwork) {
     titleEl.textContent = title;
     metaEl.textContent = parts.join(' · ');
     linkEl.href = artwork.objectURL;
+    linkEl.style.textDecoration = '';
+    linkEl.style.cursor = '';
+    if (sourceEl) sourceEl.textContent = 'The Metropolitan Museum of Art';
     container.style.display = 'flex';
 }
 async function fetchRandomMetArtworkWithImage(onProgress) {
@@ -320,10 +341,11 @@ window.onload = function () {
     // Set image sources after webpack processes them
     const heroImage = document.querySelector('.hero-image');
     if (heroImage) {
-        // Use static image as immediate fallback, then upgrade to Met artwork
-        loadMetHeroImage(heroImage, annunciationImg, { useCache: true });
+        // Show default image on load
+        heroImage.src = annunciationImg;
+        showDefaultHeroInfo();
 
-        // Attach button to load a brand new Met artwork on demand
+        // Attach button to load a Met artwork on demand
         const metButton = document.getElementById('ai-hero-met-btn');
         if (metButton) {
             metButton.addEventListener('click', () => {
@@ -390,8 +412,6 @@ window.onload = function () {
     // Initialize skill tooltips
     initSkillTooltips();
     
-    // Initialize AI Hero Modal
-    new AIHeroModal();
 };
 
 // loads in about section on scroll

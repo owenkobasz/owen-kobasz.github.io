@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}} | Owen Kobasz</title>
+    <meta name="description" content="{{description}}" />
+    <link rel="canonical" href="{{canonical_url}}" />
+    <link rel="icon" href="/assets/fav.png" sizes="32x32" type="image/png" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="{{title}}" />
+    <meta property="og:description" content="{{description}}" />
+    <meta property="og:url" content="{{canonical_url}}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Owen Kobasz" />
+    {{og_image_tag}}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{title}}" />
+    <meta name="twitter:description" content="{{description}}" />
+    {{twitter_image_tag}}
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" title="Owen Kobasz Blog" href="/blog/rss.xml" />
+
+    <meta name="theme-color" content="#51a2e9" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "{{title}}",
+        "description": "{{description}}",
+        "datePublished": "{{date_iso}}",
+        "author": {
+            "@type": "Person",
+            "name": "{{author}}"
+        },
+        "url": "{{canonical_url}}",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{canonical_url}}"
+        }
+    }
+    </script>
+
+    <link rel="stylesheet" href="/blog.css" />
+    {{highlight_css}}
+
+    {{analytics_snippet}}
+</head>
+<body>
+    <div class="reading-progress" id="reading-progress"></div>
+
+    <header class="blog-nav">
+        <button class="blog-nav__toggle" id="blog-nav-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="blog-nav-overlay">
+            <img src="/assets/menu.svg" alt="Menu" width="24" height="24" />
+        </button>
+    </header>
+
+    <div class="blog-nav-overlay" id="blog-nav-overlay" role="dialog" aria-label="Navigation">
+        <button class="blog-nav-overlay__close" id="blog-nav-close" aria-label="Close navigation">&times;</button>
+        <ul class="blog-nav-overlay__links">
+            <li><a href="/" class="blog-nav-overlay__link">Home</a></li>
+            <li><a href="/#about" class="blog-nav-overlay__link">About</a></li>
+            <li><a href="/#projects" class="blog-nav-overlay__link">Projects</a></li>
+            <li><a href="/blog" class="blog-nav-overlay__link blog-nav-overlay__link--active">Blog</a></li>
+            <li><a href="/#contact" class="blog-nav-overlay__link">Contact</a></li>
+        </ul>
+    </div>
+
+    <article class="blog-post">
+        <header class="blog-post__header">
+            <a href="/blog" class="blog-post__back">&larr; All posts</a>
+            <h1 class="blog-post__title">{{title}}</h1>
+            <div class="blog-post__meta">
+                <time class="blog-post__date" datetime="{{date_iso}}">{{date_formatted}}</time>
+                <span class="blog-post__reading-time">{{reading_time}} min read</span>
+            </div>
+            {{tags_html}}
+        </header>
+
+        <div class="blog-content">
+            {{content}}
+        </div>
+    </article>
+
+    <footer class="footer" style="text-align:center; padding:4rem 2rem; font-size:1.4rem; color:rgba(250,250,250,0.4);">
+        <p>&copy; 2025 Owen Kobasz</p>
+    </footer>
+
+    <script>
+    (function() {
+        var bar = document.getElementById('reading-progress');
+        if (bar) {
+            window.addEventListener('scroll', function() {
+                var h = document.documentElement;
+                var pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+                bar.style.width = Math.min(pct, 100) + '%';
+            }, { passive: true });
+        }
+
+        var overlay  = document.getElementById('blog-nav-overlay');
+        var toggle   = document.getElementById('blog-nav-toggle');
+        var closeBtn = document.getElementById('blog-nav-close');
+        if (!overlay || !toggle) return;
+
+        function openNav() {
+            overlay.classList.add('blog-nav-overlay--open');
+            toggle.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeNav() {
+            overlay.classList.remove('blog-nav-overlay--open');
+            toggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
+        toggle.addEventListener('click', openNav);
+        if (closeBtn) closeBtn.addEventListener('click', closeNav);
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) closeNav();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeNav();
+        });
+    })();
+    </script>
+</body>
+</html>

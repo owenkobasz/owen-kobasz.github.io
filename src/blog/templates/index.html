@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog | Owen Kobasz</title>
+    <meta name="description" content="Writing about software engineering, system design, algorithms, and building things." />
+    <link rel="canonical" href="{{site_url}}/blog" />
+    <link rel="icon" href="/assets/fav.png" sizes="32x32" type="image/png" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Blog | Owen Kobasz" />
+    <meta property="og:description" content="Writing about software engineering, system design, algorithms, and building things." />
+    <meta property="og:url" content="{{site_url}}/blog" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Owen Kobasz" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Blog | Owen Kobasz" />
+    <meta name="twitter:description" content="Writing about software engineering, system design, algorithms, and building things." />
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" title="Owen Kobasz Blog" href="/blog/rss.xml" />
+
+    <meta name="theme-color" content="#51a2e9" />
+
+    <link rel="stylesheet" href="/blog.css" />
+
+    {{analytics_snippet}}
+</head>
+<body>
+    <header class="blog-nav">
+        <button class="blog-nav__toggle" id="blog-nav-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="blog-nav-overlay">
+            <img src="/assets/menu.svg" alt="Menu" width="24" height="24" />
+        </button>
+    </header>
+
+    <div class="blog-nav-overlay" id="blog-nav-overlay" role="dialog" aria-label="Navigation">
+        <button class="blog-nav-overlay__close" id="blog-nav-close" aria-label="Close navigation">&times;</button>
+        <ul class="blog-nav-overlay__links">
+            <li><a href="/" class="blog-nav-overlay__link">Home</a></li>
+            <li><a href="/#about" class="blog-nav-overlay__link">About</a></li>
+            <li><a href="/#projects" class="blog-nav-overlay__link">Projects</a></li>
+            <li><a href="/blog" class="blog-nav-overlay__link blog-nav-overlay__link--active">Blog</a></li>
+            <li><a href="/#contact" class="blog-nav-overlay__link">Contact</a></li>
+        </ul>
+    </div>
+
+    <main class="blog-listing">
+        <header class="blog-listing__header">
+            <h1 class="blog-listing__title">Blog</h1>
+            <p class="blog-listing__description">Writing about software engineering, system design, algorithms, and building things.</p>
+        </header>
+
+        <div class="blog-listing__posts">
+            {{posts_html}}
+        </div>
+    </main>
+
+    <footer class="footer" style="text-align:center; padding:4rem 2rem; font-size:1.4rem; color:rgba(250,250,250,0.4);">
+        <p>&copy; 2025 Owen Kobasz</p>
+    </footer>
+
+    <script>
+    (function() {
+        var overlay  = document.getElementById('blog-nav-overlay');
+        var toggle   = document.getElementById('blog-nav-toggle');
+        var closeBtn = document.getElementById('blog-nav-close');
+        if (!overlay || !toggle) return;
+
+        function openNav() {
+            overlay.classList.add('blog-nav-overlay--open');
+            toggle.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeNav() {
+            overlay.classList.remove('blog-nav-overlay--open');
+            toggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
+        toggle.addEventListener('click', openNav);
+        if (closeBtn) closeBtn.addEventListener('click', closeNav);
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) closeNav();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeNav();
+        });
+    })();
+    </script>
+</body>
+</html>

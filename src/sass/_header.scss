@@ -339,9 +339,8 @@
 
   @media (max-width: 700px) {
     left: 1rem;
-    right: 1rem;
     bottom: 1rem;
-    max-width: none;
+    max-width: calc(100% - 2rem);
     font-size: 1.1rem;
   }
 }

@@ -18,7 +18,13 @@ const MET_API_BASE = 'https://collectionapi.metmuseum.org/public/collection/v1';
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
-// Serve static files in production
+// Serve blog static files (dev and prod — blog builds to dist/)
+app.use('/blog', express.static(path.join(__dirname, 'dist', 'blog')));
+app.use('/blog.css', express.static(path.join(__dirname, 'dist', 'blog.css')));
+app.use('/assets/blog', express.static(path.join(__dirname, 'dist', 'assets', 'blog')));
+app.use('/sitemap.xml', express.static(path.join(__dirname, 'dist', 'sitemap.xml')));
+
+// Serve remaining static files in production
 if (isProduction) {
     app.use(express.static(path.join(__dirname, 'dist')));
 }
@@ -317,11 +323,10 @@ app.get('/api/met/objects/:id', async (req, res) => {
     }
 });
 
-// Serve index.html for all non-API routes in production (SPA fallback)
+// Serve index.html for all non-API, non-blog routes in production (SPA fallback)
 if (isProduction) {
     app.get('*', (req, res) => {
-        // Don't serve index.html for API routes
-        if (req.path.startsWith('/api')) {
+        if (req.path.startsWith('/api') || req.path.startsWith('/blog')) {
             return res.status(404).json({ error: 'Not found' });
         }
         res.sendFile(path.join(__dirname, 'dist', 'index.html'));

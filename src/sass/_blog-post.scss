@@ -1,0 +1,227 @@
+.blog-post {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 10rem 2rem 8rem;
+
+  &__header {
+    margin-bottom: 4rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba($color-text, 0.1);
+  }
+
+  &__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.4rem;
+    color: $color-blue;
+    margin-bottom: 2.5rem;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+
+  &__title {
+    font-family: 'Canela', Georgia, serif;
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: $color-text;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+
+    @media (max-width: 700px) {
+      font-size: 3.4rem;
+    }
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 1.3rem;
+    color: rgba($color-text, 0.5);
+  }
+
+  &__date {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  &__reading-time {
+    &::before {
+      content: '·';
+      margin-right: 1.5rem;
+    }
+  }
+
+  &__tags {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  &__tag {
+    font-size: 1.2rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 3px;
+    background-color: rgba($color-blue, 0.12);
+    color: $color-blue;
+  }
+}
+
+.blog-content {
+  font-size: 1.7rem;
+  line-height: 1.8;
+  color: rgba($color-text, 0.88);
+
+  h2 {
+    font-family: 'Canela', Georgia, serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: $color-text;
+    margin-top: 4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h3 {
+    font-family: 'Canela', Georgia, serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: $color-text;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  h4 {
+    font-size: 1.9rem;
+    font-weight: 600;
+    color: $color-text;
+    margin-top: 2.5rem;
+    margin-bottom: 0.8rem;
+  }
+
+  p {
+    margin-bottom: 1.8rem;
+  }
+
+  a {
+    color: $color-blue;
+    text-decoration: underline;
+    text-decoration-color: rgba($color-blue, 0.3);
+    text-underline-offset: 2px;
+    transition: text-decoration-color 0.2s;
+
+    &:hover {
+      text-decoration-color: $color-blue;
+    }
+  }
+
+  ul, ol {
+    margin-bottom: 1.8rem;
+    padding-left: 2.5rem;
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  li {
+    list-style: inherit;
+    margin-bottom: 0.6rem;
+  }
+
+  blockquote {
+    border-left: 3px solid $color-blue;
+    padding: 1rem 2rem;
+    margin: 2rem 0;
+    background-color: rgba($color-background-light, 0.5);
+    border-radius: 0 4px 4px 0;
+    color: rgba($color-text, 0.75);
+    font-style: italic;
+  }
+
+  code {
+    font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, monospace;
+    font-size: 0.9em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    background-color: rgba($color-background-light, 0.8);
+  }
+
+  pre {
+    margin: 2rem 0;
+    border-radius: 6px;
+    overflow-x: auto;
+    background-color: rgba(0, 0, 0, 0.4) !important;
+
+    code {
+      display: block;
+      padding: 1.8rem 2rem;
+      background: none;
+      font-size: 1.4rem;
+      line-height: 1.6;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin: 2rem 0;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid rgba($color-text, 0.1);
+    margin: 3rem 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 1.5rem;
+
+    th, td {
+      padding: 1rem 1.2rem;
+      text-align: left;
+      border-bottom: 1px solid rgba($color-text, 0.1);
+    }
+
+    th {
+      font-weight: 600;
+      color: $color-text;
+    }
+  }
+}
+
+.header-anchor {
+  color: rgba($color-blue, 0.4);
+  text-decoration: none;
+  margin-left: 0.5rem;
+  font-weight: 400;
+  opacity: 0;
+  transition: opacity 0.2s;
+
+  h2:hover &, h3:hover &, h4:hover & {
+    opacity: 1;
+  }
+}
+
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: $color-blue;
+  z-index: 999999999999;
+  transition: width 50ms linear;
+}
