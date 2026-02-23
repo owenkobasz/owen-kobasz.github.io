@@ -34,6 +34,21 @@
     </div>
     <button class="ai-hero-open-btn" id="ai-hero-open-btn">Generate hero image</button>
     <button class="ai-hero-reset-btn" id="ai-hero-reset-btn">Reset to default</button>
+    <button class="ai-hero-met-btn" id="ai-hero-met-btn">Load new artwork</button>
+    <div class="met-attr" id="met-attr" aria-live="polite">
+        <div class="met-attr__content" id="met-attr-content">
+            <span class="met-attr__label">Artwork:</span>
+            <a href="#" target="_blank" rel="noopener noreferrer" class="met-attr__link" id="met-attr-link">
+                <span class="met-attr__title" id="met-attr-title"></span>
+            </a>
+            <span class="met-attr__meta" id="met-attr-meta"></span>
+            <span class="met-attr__source">The Metropolitan Museum of Art</span>
+        </div>
+        <div class="met-attr__progress" id="met-attr-progress">
+            <div class="met-attr__progress-bar" id="met-attr-progress-bar"></div>
+            <span class="met-attr__progress-text" id="met-attr-progress-text">Loading artwork...</span>
+        </div>
+    </div>
     <div class="heading">
         <div class="heading__line-1">Hello, I'm <span>Owen</span>.</div>
         <div class="heading__line-2">I'm a <span class="typed-text-output"></span></div>

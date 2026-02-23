@@ -84,6 +84,202 @@ function rgbToCssFilter(rgb) {
     return `brightness(0) saturate(100%) invert(${invertAmount}%) sepia(${Math.round(saturation * 100)}%) hue-rotate(${Math.round(hue)}deg) saturate(${Math.round(saturation * 300 + 100)}%) brightness(${Math.round((brightness * 0.8 + 0.2) * 100)}%)`;
 }
 
+// ------- Met Museum Hero Background --------
+
+// Use local API proxy to avoid browser CORS issues with The Met's API
+const MET_API_BASE = '/api/met';
+const MET_HERO_STORAGE_KEY = 'metHeroArtwork';
+
+function getStoredMetHero() {
+    try {
+        const stored = sessionStorage.getItem(MET_HERO_STORAGE_KEY);
+        if (!stored) return null;
+        return JSON.parse(stored);
+    } catch (e) {
+        return null;
+    }
+}
+
+function storeMetHero(data) {
+    try {
+        sessionStorage.setItem(MET_HERO_STORAGE_KEY, JSON.stringify(data));
+    } catch (e) {
+        // Ignore storage errors (e.g., disabled storage)
+    }
+}
+
+function isHorizontalImage(url) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+            // Treat "horizontal" as wider than tall by a comfortable margin
+            resolve(img.naturalWidth >= img.naturalHeight);
+        };
+        img.onerror = () => resolve(false);
+        img.src = url;
+    });
+}
+
+function showMetProgress(percent, text) {
+    const container = document.getElementById('met-attr');
+    const progressBar = document.getElementById('met-attr-progress-bar');
+    const progressText = document.getElementById('met-attr-progress-text');
+
+    if (!container || !progressBar || !progressText) return;
+
+    container.classList.add('met-attr--loading');
+    container.style.display = 'flex';
+    progressBar.style.width = `${Math.min(100, Math.max(0, percent))}%`;
+    progressText.textContent = text || 'Loading artwork...';
+}
+
+function hideMetProgress() {
+    const container = document.getElementById('met-attr');
+    if (container) {
+        container.classList.remove('met-attr--loading');
+    }
+}
+
+function updateMetAttribution(artwork) {
+    const container = document.getElementById('met-attr');
+    const titleEl = document.getElementById('met-attr-title');
+    const metaEl = document.getElementById('met-attr-meta');
+    const linkEl = document.getElementById('met-attr-link');
+
+    if (!container || !titleEl || !metaEl || !linkEl) return;
+
+    hideMetProgress();
+
+    if (!artwork || !artwork.imageUrl || !artwork.objectURL) {
+        container.style.display = 'none';
+        titleEl.textContent = '';
+        metaEl.textContent = '';
+        linkEl.removeAttribute('href');
+        return;
+    }
+
+    const title = artwork.title || 'Untitled';
+    const parts = [];
+    if (artwork.artistDisplayName) parts.push(artwork.artistDisplayName);
+    if (artwork.objectDate) parts.push(artwork.objectDate);
+
+    titleEl.textContent = title;
+    metaEl.textContent = parts.join(' · ');
+    linkEl.href = artwork.objectURL;
+    container.style.display = 'flex';
+}
+async function fetchRandomMetArtworkWithImage(onProgress) {
+    // Use search endpoint to narrow to artworks that are likely paintings and have images
+    onProgress?.(10, 'Searching paintings...');
+    const searchRes = await fetch(
+        `${MET_API_BASE}/search?hasImages=true&q=painting`
+    );
+    if (!searchRes.ok) {
+        throw new Error('Failed to search Met objects');
+    }
+    const searchData = await searchRes.json();
+    const objectIDs = searchData.objectIDs || [];
+    if (!objectIDs.length) {
+        throw new Error('No Met painting object IDs returned');
+    }
+
+    onProgress?.(30, 'Finding suitable artwork...');
+    // Try a larger number of random picks to find a horizontal painting with an image
+    const maxAttempts = 20;
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        const randomId = objectIDs[Math.floor(Math.random() * objectIDs.length)];
+        onProgress?.(30 + (attempt * 5), `Checking artwork ${attempt + 1}/${maxAttempts}...`);
+        const objRes = await fetch(`${MET_API_BASE}/objects/${randomId}`);
+        if (!objRes.ok) {
+            continue;
+        }
+        const objData = await objRes.json();
+        const imageUrl = objData.primaryImage || objData.primaryImageSmall;
+        const classification = (objData.classification || '').toLowerCase();
+        const objectName = (objData.objectName || '').toLowerCase();
+        const department = (objData.department || '').toLowerCase();
+
+        const isPainting =
+            classification.includes('paintings') ||
+            objectName.includes('painting') ||
+            department.includes('paintings');
+
+        if (imageUrl && isPainting) {
+            onProgress?.(70, 'Verifying image orientation...');
+            const isHorizontal = await isHorizontalImage(imageUrl);
+            if (!isHorizontal) {
+                continue;
+            }
+
+            onProgress?.(90, 'Loading image...');
+            return {
+                objectID: objData.objectID,
+                imageUrl,
+                title: objData.title,
+                artistDisplayName: objData.artistDisplayName,
+                objectDate: objData.objectDate,
+                objectURL: objData.objectURL,
+            };
+        }
+    }
+
+    throw new Error('Unable to find Met artwork with image after several attempts');
+}
+
+async function loadMetHeroImage(heroImageEl, fallbackSrc, { useCache = true } = {}) {
+    if (!heroImageEl) return;
+
+    // Try to use cached artwork for this session first
+    if (useCache) {
+        const cached = getStoredMetHero();
+        if (cached && cached.imageUrl) {
+            const preload = new Image();
+            preload.onload = () => {
+                heroImageEl.src = cached.imageUrl;
+                updateMetAttribution(cached);
+            };
+            preload.onerror = () => {
+                // If cached URL fails, silently fall back to static image
+                heroImageEl.src = fallbackSrc;
+                updateMetAttribution(null);
+            };
+            preload.src = cached.imageUrl;
+            return;
+        }
+    }
+
+    // Otherwise, fetch a fresh random artwork (or when forcing refresh)
+    try {
+        showMetProgress(0, 'Starting...');
+        const artwork = await fetchRandomMetArtworkWithImage((percent, text) => {
+            showMetProgress(percent, text);
+        });
+        
+        if (!artwork || !artwork.imageUrl) {
+            // If we fail to get a new artwork, keep whatever image is currently shown
+            updateMetAttribution(null);
+            return;
+        }
+
+        showMetProgress(95, 'Finalizing...');
+        const preload = new Image();
+        preload.onload = () => {
+            heroImageEl.src = artwork.imageUrl;
+            storeMetHero(artwork);
+            updateMetAttribution(artwork);
+        };
+        preload.onerror = () => {
+            // If the new image fails to load, keep the previous hero image
+            updateMetAttribution(null);
+        };
+        preload.src = artwork.imageUrl;
+    } catch (e) {
+        // Network/API failure – keep fallback hero
+        heroImageEl.src = fallbackSrc;
+        updateMetAttribution(null);
+    }
+}
+
 // Apply colors to skills
 function applyColorsToSkills() {
     const backgroundColor = getComputedStyle(document.body).backgroundColor || 'rgb(26, 26, 26)';
@@ -123,7 +319,18 @@ window.onload = function () {
 
     // Set image sources after webpack processes them
     const heroImage = document.querySelector('.hero-image');
-    if (heroImage) heroImage.src = annunciationImg;
+    if (heroImage) {
+        // Use static image as immediate fallback, then upgrade to Met artwork
+        loadMetHeroImage(heroImage, annunciationImg, { useCache: true });
+
+        // Attach button to load a brand new Met artwork on demand
+        const metButton = document.getElementById('ai-hero-met-btn');
+        if (metButton) {
+            metButton.addEventListener('click', () => {
+                loadMetHeroImage(heroImage, annunciationImg, { useCache: false });
+            });
+        }
+    }
     
     const profileImg = document.querySelector('.profile__picture img');
     if (profileImg) profileImg.src = aboutImg;

@@ -12,6 +12,7 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 const isProduction = process.env.NODE_ENV === 'production';
+const MET_API_BASE = 'https://collectionapi.metmuseum.org/public/collection/v1';
 
 // Middleware
 app.use(cors());
@@ -277,6 +278,43 @@ app.post('/api/hero-image', rateLimit, async (req, res) => {
 // Health check endpoint
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Proxy to The Met Museum Open Access API to avoid browser CORS issues
+app.get('/api/met/search', async (req, res) => {
+    try {
+        const searchParams = new URLSearchParams(req.query);
+        const url = `${MET_API_BASE}/search?${searchParams.toString()}`;
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            return res.status(response.status).json({ error: 'Failed to search Met objects' });
+        }
+
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        console.error('Error proxying Met search:', error);
+        res.status(500).json({ error: 'Met API search failed' });
+    }
+});
+
+app.get('/api/met/objects/:id', async (req, res) => {
+    try {
+        const objectId = req.params.id;
+        const url = `${MET_API_BASE}/objects/${objectId}`;
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            return res.status(response.status).json({ error: 'Failed to fetch Met object' });
+        }
+
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        console.error('Error proxying Met object:', error);
+        res.status(500).json({ error: 'Met API object fetch failed' });
+    }
 });
 
 // Serve index.html for all non-API routes in production (SPA fallback)
