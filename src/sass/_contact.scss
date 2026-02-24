@@ -28,9 +28,6 @@
     margin-top: -4rem !important;
     margin-bottom: 6rem !important;
     display: inline-block;
-    padding: 0.6rem 1.2rem;
-    border: 3px solid $color-red;
-    border-radius: 0.4rem;
   }
 
   &__text {
@@ -128,7 +125,7 @@
     color: inherit;
     background-color: $color-background-light;
     font-size: 1.6rem;
-    font-family: 'Canela', serif;
+    font-family: inherit;
 
     border-left: 2px solid transparent;
 
@@ -148,6 +145,7 @@
 
     &:focus {
       outline: none;
+      border-left: 2px solid $color-red;
     }
     &::placeholder {
       /* Chrome, Firefox, Opera, Safari 10.1+ */

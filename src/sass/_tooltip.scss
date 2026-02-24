@@ -6,11 +6,11 @@
   max-width: 260px;
   padding: 0.8rem 1rem;
   
-  background-color: rgba(26, 26, 26, 0.95); // Dark translucent background
-  border: 1px solid rgba(100, 149, 237, 0.4); // Subtle border glow
+  background-color: rgba(40, 34, 26, 0.95);
+  border: 1px solid rgba($color-red, 0.4);
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 
-              0 0 8px rgba(100, 149, 237, 0.2); // Shadow + subtle glow
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 
+              0 0 8px rgba($color-red, 0.15);
   
   color: #fafafa;
   font-size: 1.2rem;
@@ -59,7 +59,7 @@
   cursor: pointer;
   
   &:focus {
-    outline: 2px solid rgba(100, 149, 237, 0.6);
+    outline: 2px solid rgba($color-red, 0.5);
     outline-offset: 2px;
   }
   

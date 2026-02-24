@@ -13,7 +13,9 @@
   justify-content: flex-end;
   padding: 0 3rem;
   z-index: 9999;
-  background: transparent;
+  background-color: rgba($color-background-light, 0.9);
+  border-bottom: 1px solid $color-border;
+  box-shadow: 0 4px 4px rgba(40, 34, 26, 0.08);
 
   &__toggle {
     display: flex;
@@ -30,7 +32,7 @@
     img {
       width: 2.4rem;
       height: 2.4rem;
-      filter: brightness(0) invert(1);
+      filter: brightness(0);
       transition: opacity 0.2s;
     }
 
@@ -93,7 +95,7 @@
 
     &:hover,
     &--active {
-      color: $color-blue;
+      color: $color-red;
     }
   }
 }
@@ -141,7 +143,7 @@
   transition: border-color 0.2s, background-color 0.2s;
 
   &:hover {
-    border-color: rgba($color-blue, 0.4);
+    border-color: rgba($color-red, 0.4);
     background-color: rgba($color-background-light, 0.9);
   }
 
@@ -179,7 +181,7 @@
     font-size: 1.2rem;
     padding: 0.3rem 0.8rem;
     border-radius: 3px;
-    background-color: rgba($color-blue, 0.12);
-    color: $color-blue;
+    background-color: rgba($color-red, 0.12);
+    color: $color-red;
   }
 }

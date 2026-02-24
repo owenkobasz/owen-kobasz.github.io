@@ -22,11 +22,11 @@
     justify-content: flex-end;
     align-items: center;
     height: 6rem;
-    border-bottom: 1px solid $color-background;
-    background-color: rgba($color-background-light, 0.95);
+    border-bottom: 1px solid $color-border;
+    background-color: rgba($color-background-light, 0.96);
     backdrop-filter: blur(8px);
 
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 4px rgba(40, 34, 26, 0.08);
 
     z-index: 99999999999;
 

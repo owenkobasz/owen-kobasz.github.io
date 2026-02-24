@@ -1,6 +1,6 @@
 import './sass/main.scss';
 // import canvasDots from './headerCanvas.js';
-import canvasDotsBg from './backgroundCanvas.js';
+// import canvasDotsBg from './backgroundCanvas.js';
 import Typed from 'typed.js';
 import { sendEmail } from './emailjs.js';
 import { initSkillTooltips } from './tooltip.js';
@@ -36,16 +36,16 @@ import resumeFile from './assets/resume.pdf';
 
 // Color palette for skills section
 const skillColors = {
-    'webdev': 'rgb(100, 149, 237)',        // Cornflower Blue
-    'llm': 'rgb(255, 182, 193)',           // Light Pink
-    'problemsolving': 'rgb(255, 218, 185)', // Peach
-    'backend': 'rgb(144, 238, 144)',        // Light Green
-    'algorithms': 'rgb(255, 160, 122)',     // Light Salmon
-    'devtool': 'rgb(221, 160, 221)',        // Plum
-    'geospatial': 'rgb(240, 128, 128)',      // Light Coral
-    'python': 'rgb(255, 250, 205)',         // Lemon Chiffon
-    'datamodel': 'rgb(255, 192, 203)',      // Pink
-    'simulation': 'rgb(176, 224, 230)'      // Powder Blue
+    'webdev': 'rgb(158, 126, 42)',         // Muted Brass
+    'llm': 'rgb(180, 168, 140)',           // Warm Tan
+    'problemsolving': 'rgb(170, 155, 120)', // Sandy Khaki
+    'backend': 'rgb(107, 113, 96)',        // Olive Slate
+    'algorithms': 'rgb(145, 130, 100)',    // Warm Umber
+    'devtool': 'rgb(130, 120, 105)',       // Warm Gray
+    'geospatial': 'rgb(150, 135, 110)',    // Warm Sand
+    'python': 'rgb(175, 160, 120)',        // Light Amber
+    'datamodel': 'rgb(160, 145, 115)',     // Warm Ochre
+    'simulation': 'rgb(140, 135, 120)'     // Stone Gray
 };
 
 // Convert RGB to CSS filter for SVG coloring
@@ -323,7 +323,7 @@ function applyColorsToSkills() {
 }
 
 window.onload = function () {
-    canvasDotsBg();
+    // canvasDotsBg();
     // canvasDots(); // Replaced with static image
 
     // Typed Initiate

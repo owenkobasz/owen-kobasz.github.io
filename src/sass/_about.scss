@@ -1,11 +1,28 @@
 .about {
-  // height: 800px;
+  position: relative;
   width: 1300px;
   margin-left: auto;
   margin-right: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 8rem;
+    background: linear-gradient(
+      to bottom,
+      rgba(40, 34, 26, 0.06) 0%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
 
   @media (max-width: 1500px) {
     width: 1100px;
@@ -17,9 +34,6 @@
 
   &__heading {
     display: inline-block;
-    padding: 0.6rem 1.2rem;
-    border: 3px solid $color-red;
-    border-radius: 0.4rem;
   }
 
   &__content {
@@ -41,7 +55,7 @@
   align-items: center;
 
   // background-color: $color-blue-dark;
-  font-weight: 500;
+  font-weight: 400;
 
   left: -300px;
   opacity: 0;
@@ -73,13 +87,13 @@
       height: 100%;
       object-fit: cover;
       border-radius: 50%;
-      border: 4px solid rgb(100, 149, 237);
-      box-shadow: 0 8px 32px rgba(100, 149, 237, 0.3);
+      border: 2px solid $color-border;
+      box-shadow: 0 8px 32px rgba(40, 34, 26, 0.12);
       transition: all 0.3s ease;
       
       &:hover {
         transform: scale(1.05);
-        box-shadow: 0 12px 40px rgba(100, 149, 237, 0.4);
+        box-shadow: 0 12px 40px rgba(40, 34, 26, 0.18);
       }
     }
   }
@@ -136,15 +150,9 @@
     height: 100px;
     width: 160px;
 
-    border: double 3px transparent;
-
-    border-image-slice: 1;
-    border-width: 3px;
-    background-image: linear-gradient($color-background, $color-background),
-      radial-gradient(circle at top left, $color-blue, $color-red);
+    border: 1px solid $color-border;
     border-radius: 10px;
-    background-origin: border-box;
-    background-clip: content-box, border-box;
+    background-color: rgba($color-background-light, 0.6);
 
     transition: transform 0.2s, opacity 1.2s;
     overflow: hidden;
@@ -263,40 +271,16 @@
       border-radius: 5px;
     }
 
-    &--algorithms img {
-      filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(194deg) brightness(102%) contrast(91%);
-    }
-
-    &--python img {
-      filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(194deg) brightness(102%) contrast(91%);
-    }
-
-    &--backend img {
-      filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(194deg) brightness(102%) contrast(91%);
-    }
-
-    &--simulation img {
-      filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(194deg) brightness(102%) contrast(91%);
-    }
-
-    &--datamodel img {
-      filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(194deg) brightness(102%) contrast(91%);
-    }
-
-    &--devtool img {
-      filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(194deg) brightness(102%) contrast(91%);
-    }
-
-    &--llm img {
-      filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(194deg) brightness(102%) contrast(91%);
-    }
-
-    &--problemsolving img {
-      filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(194deg) brightness(102%) contrast(91%);
-    }
-
+    &--algorithms img,
+    &--python img,
+    &--backend img,
+    &--simulation img,
+    &--datamodel img,
+    &--devtool img,
+    &--llm img,
+    &--problemsolving img,
     &--geospatial img {
-      filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(194deg) brightness(102%) contrast(91%);
+      filter: brightness(0) saturate(100%) invert(12%) sepia(30%) saturate(600%) hue-rotate(10deg) brightness(95%) contrast(95%);
     }
   }
 }

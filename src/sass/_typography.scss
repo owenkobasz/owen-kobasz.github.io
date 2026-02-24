@@ -1,14 +1,25 @@
 .section-heading {
   position: relative;
+  font-family: 'Canela', serif;
   font-size: 5.5rem;
   font-weight: 700;
+  letter-spacing: 0.04em;
   margin-top: 9rem;
   margin-bottom: 13rem;
-
-  // text-shadow: 0 0 1px $color-background, 0 0 1px $color-background,
-  //   0 0 1px $color-background, 0 0 1px $color-background;
+  padding-bottom: 1.2rem;
 
   z-index: 9999;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6rem;
+    height: 1px;
+    background-color: $color-border;
+  }
 
   @media (max-width: 1200px) {
     margin-bottom: 10rem;

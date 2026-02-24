@@ -1,43 +1,15 @@
 ---
-title: "Hello World: Welcome to the Blog"
+title: "New Site Who This?"
 date: 2026-02-23
-description: "First post on the blog — a quick look at what's coming and how this site was built."
-tags: [meta, web-dev]
+description: "Blog post #1: Intentions"
+tags: [meta]
 author: Owen Kobasz
 image:
 draft: false
 ---
 
-## Why a blog?
+I’ve been meaning to start a blog for a while, and it felt like a good excuse to redesign my site.
 
-I've been building things for a while now — APIs, routing algorithms, simulation tools, AI-integrated systems — and I wanted a place to write about the process. Not just finished products, but the decisions, trade-offs, and dead ends that come with real engineering work.
+Historically, this has been a straightforward portfolio (to prove that I can, in fact, code and work with modern web frameworks, etc.). But recently I’ve been increasingly inspired by the indie web movement and the care individuals put into their personal sites. There’s a lot I’d still like to change about the current iteration, but I se it as a process of becoming. Completed projects are great (and impressive), but the problem-solving phase is where I have the most fun.
 
-This blog is that place.
-
-## What to expect
-
-Posts here will cover:
-
-- **Technical deep-dives** — walking through architecture decisions, interesting algorithms, or tools I've built
-- **Project write-ups** — the story behind projects like Cyclone and Turbo
-- **Explorations** — things I'm learning, experimenting with, or thinking through
-
-## How this blog works
-
-The blog is pre-rendered at build time from Markdown files. Each post is a `.md` file with YAML frontmatter for metadata. A build script converts them to static HTML with full SEO, RSS, and syntax highlighting. No client-side framework, no JavaScript required to read a post.
-
-Here's a quick code example to show off syntax highlighting:
-
-```python
-def greet(name: str) -> str:
-    return f"Hello, {name}!"
-
-if __name__ == "__main__":
-    print(greet("world"))
-```
-
-The whole system is designed to be portable — when the site eventually moves to Astro, the Markdown files transfer with zero modifications.
-
-## What's next
-
-More posts soon. Stay tuned.
+Through this blog, I hope to share and develop ideas around the things I find interesting and inspiring: AI (done right), philosophy, bikes, computers, and the great outdoors. Those who know me personally know that I like to geek out on the details and sit with the ambiguous spaces between right and wrong, known and unknown. Currently my philosophy is to do that which promotes life and build human connections whenever possible.

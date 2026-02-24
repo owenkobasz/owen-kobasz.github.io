@@ -25,12 +25,32 @@
   font-display: swap;
 }
 
-$color-text: #fafafa;
-$color-red: rgb(100, 149, 237);
-$color-background: rgb(26, 26, 26);
-$color-background-light: rgb(40, 40, 40);
+@font-face {
+  font-family: 'Source Serif 4';
+  src: url('../assets/fonts/Source_Serif_4/SourceSerif4-VariableFont_opsz,wght.ttf')
+    format('truetype');
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Source Serif 4';
+  src: url('../assets/fonts/Source_Serif_4/SourceSerif4-Italic-VariableFont_opsz,wght.ttf')
+    format('truetype');
+  font-weight: 200 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+$color-text: #28221A;
+$color-red: #9E7E2A;
+$color-background: #F0EBE0;
+$color-background-light: #E5DDD0;
 $color-blue: rgb(81, 162, 233);
 $color-blue-dark: rgb(50, 22, 187);
+$color-accent-secondary: #6B7160;
+$color-border: #C8BCA4;
 
 *,
 *::before,
@@ -71,8 +91,9 @@ html {
 body {
   min-height: 100vh;
   color: $color-text;
-  font-family: 'Canela', "Helvetica Neue", Helvetica, serif;
+  font-family: 'Source Serif 4', 'Iowan Old Style', 'Palatino Linotype', Palatino, serif;
   background-color: $color-background;
+  line-height: 1.7;
   overflow-x: hidden;
 }
 

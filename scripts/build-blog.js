@@ -107,7 +107,7 @@ function compileSCSS() {
 }
 
 function copyStaticAssets() {
-    const assets = ['menu.svg', 'fav.png'];
+    const assets = ['menu.svg', 'fav.png', 'github-logo.png', 'mail.png', 'linkedin-logo.svg', 'home.svg'];
     const assetsDistDir = path.join(DIST, 'assets');
     fs.mkdirSync(assetsDistDir, { recursive: true });
     for (const file of assets) {
@@ -145,7 +145,7 @@ function loadPosts() {
 function buildPosts(posts) {
     const template = readTemplate('post.html');
     const analytics = analyticsSnippet();
-    const hljsCss = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />`;
+    const hljsCss = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" />`;
 
     for (const post of posts) {
         const html = md.render(post.rawContent);

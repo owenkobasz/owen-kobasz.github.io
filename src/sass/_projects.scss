@@ -7,9 +7,6 @@
 
   &__heading {
     display: inline-block;
-    padding: 0.6rem 1.2rem;
-    border: 3px solid $color-red;
-    border-radius: 0.4rem;
   }
 }
 
@@ -37,10 +34,10 @@
       height: 57rem;
       width: 100rem;
       box-sizing: border-box;
-      border: 8px solid rgb(120, 75, 120);
+      border: 2px solid $color-border;
       flex: none;
 
-      background-color: rgb(120, 75, 120);
+      background-color: $color-background-light;
       transition: all 0.2s;
       cursor: pointer;
 
@@ -102,16 +99,14 @@
     top: 8rem;
 
     height: fit-content;
-    padding: 1rem;
+    padding: 2.4rem;
+    background-color: rgba($color-background, 0.93);
+    border: 1px solid $color-border;
 
     z-index: 9999999;
 
     @media (max-width: 1000px) {
       width: fit-content;
-    }
-
-    @media (max-width: 700px) {
-      background-color: rgba($color-background, 0.5);
     }
 
     @media (max-width: 560px) {
@@ -136,6 +131,7 @@
   &__title {
     position: relative;
     z-index: 66;
+    font-family: 'Canela', serif;
     font-size: 3.5rem;
     // font-weight: 700;
 
@@ -161,7 +157,7 @@
     position: relative;
     margin-top: 3rem;
     font-size: 1.8rem;
-    font-weight: 500;
+    font-weight: 400;
 
     z-index: 999909999;
 
@@ -425,6 +421,8 @@
     left: auto !important;
     right: auto !important;
     margin: 0 !important;
+    background-color: transparent !important;
+    border: none !important;
   }
 
   // Cancel left/right variant offsets on mobile

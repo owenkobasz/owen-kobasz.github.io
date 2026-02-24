@@ -14,7 +14,7 @@
     align-items: center;
     gap: 0.6rem;
     font-size: 1.4rem;
-    color: $color-blue;
+    color: $color-red;
     margin-bottom: 2.5rem;
     transition: opacity 0.2s;
 
@@ -67,8 +67,8 @@
     font-size: 1.2rem;
     padding: 0.3rem 0.8rem;
     border-radius: 3px;
-    background-color: rgba($color-blue, 0.12);
-    color: $color-blue;
+    background-color: rgba($color-red, 0.12);
+    color: $color-red;
   }
 }
 
@@ -108,14 +108,14 @@
   }
 
   a {
-    color: $color-blue;
+    color: $color-red;
     text-decoration: underline;
-    text-decoration-color: rgba($color-blue, 0.3);
+    text-decoration-color: rgba($color-red, 0.3);
     text-underline-offset: 2px;
     transition: text-decoration-color 0.2s;
 
     &:hover {
-      text-decoration-color: $color-blue;
+      text-decoration-color: $color-red;
     }
   }
 
@@ -138,7 +138,7 @@
   }
 
   blockquote {
-    border-left: 3px solid $color-blue;
+    border-left: 3px solid $color-red;
     padding: 1rem 2rem;
     margin: 2rem 0;
     background-color: rgba($color-background-light, 0.5);
@@ -159,7 +159,8 @@
     margin: 2rem 0;
     border-radius: 6px;
     overflow-x: auto;
-    background-color: rgba(0, 0, 0, 0.4) !important;
+    background-color: rgba($color-background-light, 0.85) !important;
+    border: 1px solid rgba($color-text, 0.12);
 
     code {
       display: block;
@@ -203,7 +204,7 @@
 }
 
 .header-anchor {
-  color: rgba($color-blue, 0.4);
+  color: rgba($color-red, 0.4);
   text-decoration: none;
   margin-left: 0.5rem;
   font-weight: 400;
@@ -221,7 +222,7 @@
   left: 0;
   width: 0%;
   height: 3px;
-  background: $color-blue;
+  background: $color-red;
   z-index: 999999999999;
   transition: width 50ms linear;
 }
