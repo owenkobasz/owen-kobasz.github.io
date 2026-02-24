@@ -450,10 +450,16 @@
   }
 
   @media (max-width: 700px) {
-    bottom: 1rem;
+    left: 1rem;
     right: 1rem;
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0));
     padding: 0.6rem 1.2rem;
     font-size: 1.2rem;
+    height: 3.6rem;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
