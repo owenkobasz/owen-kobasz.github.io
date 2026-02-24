@@ -20,3 +20,4 @@ inspo/
 *.swp
 *.map
 EOF
+dist/

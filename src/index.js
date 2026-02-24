@@ -86,8 +86,14 @@ function rgbToCssFilter(rgb) {
 
 // ------- Met Museum Hero Background --------
 
-// Use local API proxy to avoid browser CORS issues with The Met's API
-const MET_API_BASE = '/api/met';
+// The Met Museum Open Access API supports CORS, so this can be called directly on static hosts
+// (e.g. GitHub Pages). Keep the local proxy for local server dev.
+const MET_DIRECT_API_BASE = 'https://collectionapi.metmuseum.org/public/collection/v1';
+const MET_PROXY_API_BASE = '/api/met';
+const MET_API_BASE =
+    window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? MET_PROXY_API_BASE
+        : MET_DIRECT_API_BASE;
 const MET_HERO_STORAGE_KEY = 'metHeroArtwork';
 
 function getStoredMetHero() {
