@@ -23,6 +23,7 @@ import linkedinLogoImg from './assets/linkedin_logo.png';
 import aboutImg from './assets/about.jpg';
 import turboImg from './assets/turbo.jpg';
 import cycloneImg from './assets/cyclone.jpg';
+import spindleImg from './assets/spindle.jpg';
 import clipboardImg from './assets/clipboard.svg';
 import briefcaseImg from './assets/briefcase-2.svg';
 import webdev from './assets/web-dev.svg';
@@ -494,8 +495,9 @@ window.onload = function () {
     if (problemSolvingImg) problemSolvingImg.src = puzzleImg;
 
     // Project images
-    document.querySelector('.project-left .project__image-image img').src = cycloneImg;
-    document.querySelector('.project-right .project__image-image img').src = turboImg;
+    document.querySelector('img[data-project="cyclone"]').src = cycloneImg;
+    document.querySelector('img[data-project="turbo"]').src = turboImg;
+    document.querySelector('img[data-project="spindle"]').src = spindleImg;
 
     // Footer images
     document.querySelector('.socials__github img').src = githubLogoImg;

@@ -31,6 +31,8 @@ Built to showcase my work as a software engineer. Vanilla JavaScript, Webpack, a
 
 2. **Turbo** — A used car market insights tool that aggregates Craigslist listings and enriches them with VIN and MSRP data. PostgreSQL on AWS, Node.js/Express backend, React frontend. Note: live demo is currently offline — AWS RDS instance is paused to avoid costs. Codebase is active on GitHub.
 
+3. **Spindle** — A CLI tool that scrapes playlists from WPRB and other Spinitron-based radio stations, matches tracks against a local music library, and assembles ordered playlist folders ready for a portable device. Missing tracks are enriched with streaming links across major platforms via the Odesli aggregator. Python, BeautifulSoup, Mutagen. [GitHub](https://github.com/owenkobasz/spindle)
+
 ## A Bit About Me
 
 I'm a software engineer with an unconventional background. I studied liberal arts at St. John's College (the great books program) before switching to tech. Before that, I worked in the fine art world as a gallery director and curator.
