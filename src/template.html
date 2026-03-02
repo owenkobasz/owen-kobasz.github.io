@@ -20,6 +20,12 @@
     <div class="canvas">
         <img class="hero-image" src="./assets/Annunciation.png" alt="Hero background" />
         <div class="image-overlay"></div>
+        <a class="scroll-indicator" id="scroll-indicator" href="#about" aria-label="Scroll to about section">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="white" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                <path fill="white" fill-opacity="0.45" d="M7.41 4.59L12 9.17l4.59-4.58L18 6l-6 6-6-6 1.41-1.41z"/>
+            </svg>
+        </a>
         <div class="rangefinder-overlay">
           <div class="rangefinder-corner rangefinder-corner--tl"></div>
           <div class="rangefinder-corner rangefinder-corner--tr"></div>
@@ -49,7 +55,7 @@
     <div class="heading">
         <div class="heading__line-1">Hello, I'm <span>Owen</span>.</div>
         <div class="heading__line-2">I'm a <span class="typed-text-output"></span></div>
-        <div class="typed-text" style="display: none;">software engineer., critical thinker., full stack developer., problem solver., Python instructor., curator., human.</div>
+        <div class="typed-text" style="display: none;">builder., software engineer., systems thinker., artist., curator., technologist.,  teacher., human.</div>
         <div class="heading__buttons">
             <a href="#about" class="heading__link">
                 <div class="heading-cta">
@@ -205,6 +211,10 @@
     <div class="project project-right">
         <div class="project__info">
           <h3 class="project__title">Turbo<br />Auto Market Insights</h3>
+          <span class="project__status project__status--offline" title="Live demo offline — AWS RDS instance paused to avoid costs. Codebase is active on GitHub.">
+              <span class="project__status-dot"></span>
+              AWS paused
+          </span>
           <p class="project__description"><i>AWS, React, Node.js, PostgreSQL, Python.</i> <br><br>
             Turbo is a webapp that aggregates used car listings from Craigslist and enriches them with VIN and MSRP data to give buyers and dealers clear market insights.
             It supports search, filtering, value comparisons, and regional trend analysis through interactive charts and tables.

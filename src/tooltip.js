@@ -265,31 +265,41 @@ function handleToggle(tile, text) {
  * Position tooltip relative to tile
  */
 function positionTooltip(tile) {
+    if (window.innerWidth <= 480) {
+        tooltipElement.style.top = 'auto';
+        tooltipElement.style.bottom = '7.5rem';
+        tooltipElement.style.left = '1rem';
+        tooltipElement.style.right = '1rem';
+        tooltipElement.style.width = 'auto';
+        tooltipElement.style.maxWidth = 'none';
+        tooltipElement.style.transform = 'none';
+        return;
+    }
+
+    tooltipElement.style.bottom = '';
+    tooltipElement.style.right = '';
+    tooltipElement.style.width = '';
+    tooltipElement.style.maxWidth = '';
+    tooltipElement.style.transform = '';
+
     const tileRect = tile.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    
-    // Get tooltip dimensions - use offsetWidth/offsetHeight for reliability
-    // These work even when element has opacity 0
+
     const tooltipWidth = tooltipElement.offsetWidth || CONFIG.maxWidth;
     const tooltipHeight = tooltipElement.offsetHeight || 50;
-    
-    // Default: bottom center
+
     let top = tileRect.bottom + CONFIG.offset;
     let left = tileRect.left + (tileRect.width / 2) - (tooltipWidth / 2);
-    
-    // Check if tooltip would overflow bottom
+
     if (top + tooltipHeight > viewportHeight) {
-        // Flip to top
         top = tileRect.top - tooltipHeight - CONFIG.offset;
     }
-    
-    // Clamp horizontally to stay on screen
+
     const minLeft = 10;
     const maxLeft = viewportWidth - tooltipWidth - 10;
     left = Math.max(minLeft, Math.min(maxLeft, left));
-    
-    // Apply position
+
     tooltipElement.style.top = `${top}px`;
     tooltipElement.style.left = `${left}px`;
 }

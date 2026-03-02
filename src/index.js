@@ -420,11 +420,16 @@ window.onload = function () {
     // Set image sources after webpack processes them
     const heroImage = document.querySelector('.hero-image');
     if (heroImage) {
-        // Show default image on load
         heroImage.src = annunciationImg;
         showDefaultHeroInfo();
 
-        let activeFetchController = null;
+        const autoController = new AbortController();
+        let activeFetchController = autoController;
+        loadMetHeroImage(heroImage, annunciationImg, { useCache: true, signal: autoController.signal })
+            .finally(() => {
+                if (activeFetchController === autoController) activeFetchController = null;
+            });
+
         const metButton = document.getElementById('ai-hero-met-btn');
 
         if (metButton) {
@@ -509,7 +514,23 @@ window.onload = function () {
     
     // Initialize skill tooltips
     initSkillTooltips();
-    
+
+    const scrollIndicator = document.getElementById('scroll-indicator');
+    if (scrollIndicator) {
+        setTimeout(() => {
+            scrollIndicator.classList.add('scroll-indicator--visible');
+        }, 2000);
+
+        const heroEl = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            const threshold = heroEl ? heroEl.offsetHeight * 0.25 : 200;
+            if (window.scrollY > threshold) {
+                scrollIndicator.classList.add('scroll-indicator--hidden');
+            } else {
+                scrollIndicator.classList.remove('scroll-indicator--hidden');
+            }
+        }, { passive: true });
+    }
 };
 
 // loads in about section on scroll
