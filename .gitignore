@@ -21,3 +21,7 @@ inspo/
 *.map
 EOF
 dist/
+.env.example
+.claude/
+plan.md
+research.md

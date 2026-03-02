@@ -86,8 +86,6 @@ function rgbToCssFilter(rgb) {
 
 // ------- Met Museum Hero Background --------
 
-// The Met Museum Open Access API supports CORS, so this can be called directly on static hosts
-// (e.g. GitHub Pages). Keep the local proxy for local server dev.
 const MET_DIRECT_API_BASE = 'https://collectionapi.metmuseum.org/public/collection/v1';
 const MET_PROXY_API_BASE = '/api/met';
 const MET_API_BASE =
@@ -95,55 +93,123 @@ const MET_API_BASE =
         ? MET_PROXY_API_BASE
         : MET_DIRECT_API_BASE;
 const MET_HERO_STORAGE_KEY = 'metHeroArtwork';
+const MET_SEARCH_CACHE_KEY = 'metSearchIDs';
+const MET_SEARCH_CACHE_TTL = 30 * 60 * 1000;
 
 function getStoredMetHero() {
     try {
         const stored = sessionStorage.getItem(MET_HERO_STORAGE_KEY);
-        if (!stored) return null;
-        return JSON.parse(stored);
-    } catch (e) {
+        return stored ? JSON.parse(stored) : null;
+    } catch { return null; }
+}
+
+function storeMetHero(data) {
+    try { sessionStorage.setItem(MET_HERO_STORAGE_KEY, JSON.stringify(data)); } catch {}
+}
+
+function getCachedSearchIDs() {
+    try {
+        const raw = sessionStorage.getItem(MET_SEARCH_CACHE_KEY);
+        if (!raw) return null;
+        const { ids, expires } = JSON.parse(raw);
+        if (Date.now() > expires) {
+            sessionStorage.removeItem(MET_SEARCH_CACHE_KEY);
+            return null;
+        }
+        return ids;
+    } catch { return null; }
+}
+
+function cacheSearchIDs(ids) {
+    try {
+        sessionStorage.setItem(MET_SEARCH_CACHE_KEY, JSON.stringify({
+            ids, expires: Date.now() + MET_SEARCH_CACHE_TTL,
+        }));
+    } catch {}
+}
+
+function pickRandom(arr, count) {
+    const copy = arr.slice();
+    const result = [];
+    for (let i = 0; i < Math.min(count, copy.length); i++) {
+        const idx = Math.floor(Math.random() * (copy.length - i));
+        result.push(copy[idx]);
+        copy[idx] = copy[copy.length - 1 - i];
+    }
+    return result;
+}
+
+function timeoutSignal(ms, parentSignal) {
+    const controller = new AbortController();
+    const timer = setTimeout(
+        () => controller.abort(new DOMException('Timeout', 'TimeoutError')), ms
+    );
+    parentSignal?.addEventListener('abort', () => {
+        clearTimeout(timer);
+        controller.abort(parentSignal.reason);
+    }, { once: true });
+    return controller.signal;
+}
+
+async function getImageDimensions(url, parentSignal) {
+    try {
+        const res = await fetch(url, {
+            headers: { 'Range': 'bytes=0-65535' },
+            signal: timeoutSignal(8000, parentSignal),
+        });
+        if (!res.ok && res.status !== 206) return null;
+
+        const buffer = await res.arrayBuffer();
+        const view = new Uint8Array(buffer);
+
+        if (view[0] !== 0xFF || view[1] !== 0xD8) return null;
+
+        let i = 2;
+        while (i < view.length - 8) {
+            if (view[i] !== 0xFF) { i++; continue; }
+            const marker = view[i + 1];
+            const isSOF = (marker >= 0xC0 && marker <= 0xC3)
+                       || (marker >= 0xC5 && marker <= 0xC7)
+                       || (marker >= 0xC9 && marker <= 0xCB)
+                       || (marker >= 0xCD && marker <= 0xCF);
+            if (isSOF) {
+                return {
+                    height: (view[i + 5] << 8) | view[i + 6],
+                    width: (view[i + 7] << 8) | view[i + 8],
+                };
+            }
+            if (marker === 0xD8 || marker === 0xD9 || marker === 0x01
+                || (marker >= 0xD0 && marker <= 0xD7)) {
+                i += 2;
+            } else {
+                if (i + 3 >= view.length) break;
+                i += 2 + ((view[i + 2] << 8) | view[i + 3]);
+            }
+        }
+        return null;
+    } catch {
         return null;
     }
 }
 
-function storeMetHero(data) {
-    try {
-        sessionStorage.setItem(MET_HERO_STORAGE_KEY, JSON.stringify(data));
-    } catch (e) {
-        // Ignore storage errors (e.g., disabled storage)
-    }
-}
-
-function isHorizontalImage(url) {
-    return new Promise((resolve) => {
-        const img = new Image();
-        img.onload = () => {
-            // Treat "horizontal" as wider than tall by a comfortable margin
-            resolve(img.naturalWidth >= img.naturalHeight);
-        };
-        img.onerror = () => resolve(false);
-        img.src = url;
-    });
-}
+let _progressHighWater = 0;
 
 function showMetProgress(percent, text) {
     const container = document.getElementById('met-attr');
     const progressBar = document.getElementById('met-attr-progress-bar');
     const progressText = document.getElementById('met-attr-progress-text');
-
     if (!container || !progressBar || !progressText) return;
 
+    _progressHighWater = Math.max(_progressHighWater, Math.min(100, Math.max(0, percent)));
     container.classList.add('met-attr--loading');
     container.style.display = 'flex';
-    progressBar.style.width = `${Math.min(100, Math.max(0, percent))}%`;
+    progressBar.style.width = `${_progressHighWater}%`;
     progressText.textContent = text || 'Loading artwork...';
 }
 
 function hideMetProgress() {
     const container = document.getElementById('met-attr');
-    if (container) {
-        container.classList.remove('met-attr--loading');
-    }
+    if (container) container.classList.remove('met-attr--loading');
 }
 
 function showDefaultHeroInfo() {
@@ -152,11 +218,8 @@ function showDefaultHeroInfo() {
     const metaEl = document.getElementById('met-attr-meta');
     const linkEl = document.getElementById('met-attr-link');
     const sourceEl = document.getElementById('met-attr-source');
-
     if (!container || !titleEl || !metaEl || !linkEl) return;
-
     hideMetProgress();
-
     titleEl.textContent = 'The Annunciation (Redux)';
     metaEl.textContent = 'AI Generated';
     linkEl.removeAttribute('href');
@@ -172,22 +235,16 @@ function updateMetAttribution(artwork) {
     const metaEl = document.getElementById('met-attr-meta');
     const linkEl = document.getElementById('met-attr-link');
     const sourceEl = document.getElementById('met-attr-source');
-
     if (!container || !titleEl || !metaEl || !linkEl) return;
-
     hideMetProgress();
-
     if (!artwork || !artwork.imageUrl || !artwork.objectURL) {
         showDefaultHeroInfo();
         return;
     }
-
-    const title = artwork.title || 'Untitled';
     const parts = [];
     if (artwork.artistDisplayName) parts.push(artwork.artistDisplayName);
     if (artwork.objectDate) parts.push(artwork.objectDate);
-
-    titleEl.textContent = title;
+    titleEl.textContent = artwork.title || 'Untitled';
     metaEl.textContent = parts.join(' · ');
     linkEl.href = artwork.objectURL;
     linkEl.style.textDecoration = '';
@@ -195,68 +252,87 @@ function updateMetAttribution(artwork) {
     if (sourceEl) sourceEl.textContent = 'The Metropolitan Museum of Art';
     container.style.display = 'flex';
 }
-async function fetchRandomMetArtworkWithImage(onProgress) {
-    // Use search endpoint to narrow to artworks that are likely paintings and have images
-    onProgress?.(10, 'Searching paintings...');
-    const searchRes = await fetch(
-        `${MET_API_BASE}/search?hasImages=true&q=painting`
+
+async function fetchRandomMetArtworkWithImage(onProgress, signal) {
+    onProgress?.(8, 'Searching collection...');
+    let objectIDs = getCachedSearchIDs();
+    if (!objectIDs) {
+        const res = await fetch(
+            `${MET_API_BASE}/search?hasImages=true&q=painting`,
+            { signal: timeoutSignal(12000, signal) }
+        );
+        if (!res.ok) throw new Error('Met search failed');
+        const data = await res.json();
+        objectIDs = data.objectIDs || [];
+        if (!objectIDs.length) throw new Error('No Met painting IDs returned');
+        cacheSearchIDs(objectIDs);
+    }
+
+    onProgress?.(20, 'Fetching candidates...');
+    const candidateIDs = pickRandom(objectIDs, 20);
+    const objResults = await Promise.allSettled(
+        candidateIDs.map(id =>
+            fetch(`${MET_API_BASE}/objects/${id}`, { signal: timeoutSignal(10000, signal) })
+                .then(r => r.ok ? r.json() : Promise.reject(r.status))
+        )
     );
-    if (!searchRes.ok) {
-        throw new Error('Failed to search Met objects');
-    }
-    const searchData = await searchRes.json();
-    const objectIDs = searchData.objectIDs || [];
-    if (!objectIDs.length) {
-        throw new Error('No Met painting object IDs returned');
-    }
 
-    onProgress?.(30, 'Finding suitable artwork...');
-    // Try a larger number of random picks to find a horizontal painting with an image
-    const maxAttempts = 20;
-    for (let attempt = 0; attempt < maxAttempts; attempt++) {
-        const randomId = objectIDs[Math.floor(Math.random() * objectIDs.length)];
-        onProgress?.(30 + (attempt * 5), `Checking artwork ${attempt + 1}/${maxAttempts}...`);
-        const objRes = await fetch(`${MET_API_BASE}/objects/${randomId}`);
-        if (!objRes.ok) {
-            continue;
-        }
-        const objData = await objRes.json();
-        const imageUrl = objData.primaryImage || objData.primaryImageSmall;
-        const classification = (objData.classification || '').toLowerCase();
-        const objectName = (objData.objectName || '').toLowerCase();
-        const department = (objData.department || '').toLowerCase();
+    onProgress?.(50, 'Filtering paintings...');
+    const paintings = objResults
+        .filter(r => r.status === 'fulfilled')
+        .map(r => r.value)
+        .filter(obj => {
+            if (!obj.primaryImage && !obj.primaryImageSmall) return false;
+            const cls = (obj.classification || '').toLowerCase();
+            const name = (obj.objectName || '').toLowerCase();
+            const dept = (obj.department || '').toLowerCase();
+            return cls.includes('paintings') || name.includes('painting') || dept.includes('paintings');
+        });
 
-        const isPainting =
-            classification.includes('paintings') ||
-            objectName.includes('painting') ||
-            department.includes('paintings');
+    if (!paintings.length) throw new Error('No paintings found in candidate batch');
 
-        if (imageUrl && isPainting) {
-            onProgress?.(70, 'Verifying image orientation...');
-            const isHorizontal = await isHorizontalImage(imageUrl);
-            if (!isHorizontal) {
-                continue;
-            }
+    onProgress?.(65, 'Checking image dimensions...');
+    const viewportPortrait = window.matchMedia('(orientation: portrait)').matches;
 
-            onProgress?.(90, 'Loading image...');
-            return {
-                objectID: objData.objectID,
-                imageUrl,
-                title: objData.title,
-                artistDisplayName: objData.artistDisplayName,
-                objectDate: objData.objectDate,
-                objectURL: objData.objectURL,
-            };
-        }
-    }
+    const dimResults = await Promise.allSettled(
+        paintings.map(async obj => {
+            const checkUrl = obj.primaryImageSmall || obj.primaryImage;
+            const dims = await getImageDimensions(checkUrl, signal);
+            if (!dims) return { obj, fits: null };
+            const fits = viewportPortrait
+                ? dims.height >= dims.width
+                : dims.width >= dims.height;
+            return { obj, fits };
+        })
+    );
 
-    throw new Error('Unable to find Met artwork with image after several attempts');
+    const resolved = dimResults
+        .filter(r => r.status === 'fulfilled')
+        .map(r => r.value);
+
+    let chosen = resolved.find(r => r.fits === true)?.obj;
+    if (!chosen) chosen = resolved.find(r => r.fits === null)?.obj;
+    if (!chosen) chosen = resolved.find(r => r.fits === false)?.obj;
+
+    if (!chosen) throw new Error('No suitable artwork found in this batch');
+
+    onProgress?.(88, 'Loading image...');
+    return {
+        objectID: chosen.objectID,
+        imageUrl: chosen.primaryImage || chosen.primaryImageSmall,
+        previewUrl: chosen.primaryImageSmall || chosen.primaryImage,
+        title: chosen.title,
+        artistDisplayName: chosen.artistDisplayName,
+        objectDate: chosen.objectDate,
+        objectURL: chosen.objectURL,
+    };
 }
 
-async function loadMetHeroImage(heroImageEl, fallbackSrc, { useCache = true } = {}) {
+async function loadMetHeroImage(heroImageEl, fallbackSrc, { useCache = true, signal } = {}) {
     if (!heroImageEl) return;
 
-    // Try to use cached artwork for this session first
+    const previousSrc = heroImageEl.src;
+
     if (useCache) {
         const cached = getStoredMetHero();
         if (cached && cached.imageUrl) {
@@ -266,44 +342,41 @@ async function loadMetHeroImage(heroImageEl, fallbackSrc, { useCache = true } = 
                 updateMetAttribution(cached);
             };
             preload.onerror = () => {
-                // If cached URL fails, silently fall back to static image
                 heroImageEl.src = fallbackSrc;
-                updateMetAttribution(null);
+                showDefaultHeroInfo();
             };
             preload.src = cached.imageUrl;
             return;
         }
     }
 
-    // Otherwise, fetch a fresh random artwork (or when forcing refresh)
     try {
+        _progressHighWater = 0;
         showMetProgress(0, 'Starting...');
-        const artwork = await fetchRandomMetArtworkWithImage((percent, text) => {
-            showMetProgress(percent, text);
-        });
-        
-        if (!artwork || !artwork.imageUrl) {
-            // If we fail to get a new artwork, keep whatever image is currently shown
-            updateMetAttribution(null);
-            return;
+
+        const artwork = await fetchRandomMetArtworkWithImage(showMetProgress, signal);
+
+        showMetProgress(92, 'Displaying artwork...');
+
+        heroImageEl.src = artwork.previewUrl;
+        updateMetAttribution(artwork);
+        storeMetHero(artwork);
+
+        if (artwork.imageUrl !== artwork.previewUrl) {
+            const fullRes = new Image();
+            fullRes.onload = () => {
+                if (heroImageEl.src === artwork.previewUrl) {
+                    heroImageEl.src = artwork.imageUrl;
+                }
+            };
+            fullRes.src = artwork.imageUrl;
         }
 
-        showMetProgress(95, 'Finalizing...');
-        const preload = new Image();
-        preload.onload = () => {
-            heroImageEl.src = artwork.imageUrl;
-            storeMetHero(artwork);
-            updateMetAttribution(artwork);
-        };
-        preload.onerror = () => {
-            // If the new image fails to load, keep the previous hero image
-            updateMetAttribution(null);
-        };
-        preload.src = artwork.imageUrl;
     } catch (e) {
-        // Network/API failure – keep fallback hero
-        heroImageEl.src = fallbackSrc;
-        updateMetAttribution(null);
+        if (e?.name === 'AbortError') return;
+
+        heroImageEl.src = previousSrc || fallbackSrc;
+        showDefaultHeroInfo();
     }
 }
 
@@ -351,11 +424,30 @@ window.onload = function () {
         heroImage.src = annunciationImg;
         showDefaultHeroInfo();
 
-        // Attach button to load a Met artwork on demand
+        let activeFetchController = null;
         const metButton = document.getElementById('ai-hero-met-btn');
+
         if (metButton) {
             metButton.addEventListener('click', () => {
-                loadMetHeroImage(heroImage, annunciationImg, { useCache: false });
+                if (activeFetchController) {
+                    activeFetchController.abort();
+                }
+                activeFetchController = new AbortController();
+                const { signal } = activeFetchController;
+
+                metButton.disabled = true;
+                metButton.textContent = 'Loading…';
+
+                loadMetHeroImage(heroImage, annunciationImg, { useCache: false, signal })
+                    .finally(() => {
+                        activeFetchController = null;
+                        metButton.disabled = false;
+                        metButton.textContent = 'Load random artwork (Met API)';
+                    });
+            });
+
+            window.matchMedia('(orientation: portrait)').addEventListener('change', () => {
+                sessionStorage.removeItem(MET_HERO_STORAGE_KEY);
             });
         }
     }
