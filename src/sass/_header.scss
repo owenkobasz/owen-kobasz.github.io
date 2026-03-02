@@ -261,12 +261,12 @@
   flex-direction: column;
   gap: 0.2rem;
   max-width: 60%;
-  padding: 0.6rem 1.2rem;
+  padding: 0.8rem 1.4rem;
   background-color: rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
   color: #f5f5f5;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   line-height: 1.4;
   backdrop-filter: blur(4px);
 
@@ -294,24 +294,16 @@
 
   &__progress-bar {
     width: 0%;
-    height: 3px;
+    height: 4px;
     background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
     border-radius: 2px;
     transition: width 0.3s ease;
   }
 
   &__progress-text {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     opacity: 0.9;
     text-align: center;
-  }
-
-  &__label {
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 1.1rem;
-    opacity: 0.8;
   }
 
   &__title {
@@ -334,19 +326,28 @@
 
   &__source {
     opacity: 0.7;
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 
   @media (max-width: 700px) {
     left: 1rem;
     right: 1rem;
-    bottom: calc(1rem + env(safe-area-inset-bottom, 0) + 3.6rem + 0.75rem);
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0) + 5rem + 0.75rem);
     max-width: none;
-    font-size: 1.1rem;
+    padding: 0.8rem 1.2rem;
+    font-size: 1.5rem;
 
-    .met-attr__title {
+    &__progress-text {
+      font-size: 1.4rem;
+    }
+
+    &__source {
+      font-size: 1.2rem;
+    }
+
+    &__title {
       display: -webkit-box;
-      -webkit-line-clamp: 2;
+      -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
@@ -414,9 +415,12 @@
     animation-timing-function: cubic-bezier(0.21, 1.11, 0.81, 0.99);
 
     @media (max-width: 700px) {
+      margin-top: 1.8rem;
+    }
+
+    @media (max-width: 350px) {
       flex-direction: column;
       gap: 1.5rem;
-      margin-top: 1.8rem;
     }
   }
 
@@ -444,10 +448,6 @@
 
     @media (max-width: 1500px) {
       width: auto;
-    }
-
-    @media (max-width: 700px) {
-      margin-top: 1.8rem;
     }
 
     @media (max-width: 550px) {
