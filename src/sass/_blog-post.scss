@@ -6,7 +6,7 @@
   &__header {
     margin-bottom: 4rem;
     padding-bottom: 3rem;
-    border-bottom: 1px solid rgba($color-text, 0.1);
+    border-bottom: 1px solid rgba(var(--color-text-rgb), 0.1);
   }
 
   &__back {
@@ -14,7 +14,7 @@
     align-items: center;
     gap: 0.6rem;
     font-size: 1.4rem;
-    color: $color-red;
+    color: var(--color-accent);
     margin-bottom: 2.5rem;
     transition: opacity 0.2s;
 
@@ -27,7 +27,7 @@
     font-family: 'Canela', Georgia, serif;
     font-size: 4.5rem;
     font-weight: 700;
-    color: $color-text;
+    color: var(--color-text);
     line-height: 1.2;
     margin-bottom: 1.5rem;
 
@@ -41,7 +41,7 @@
     align-items: center;
     gap: 1.5rem;
     font-size: 1.3rem;
-    color: rgba($color-text, 0.5);
+    color: rgba(var(--color-text-rgb), 0.5);
   }
 
   &__date {
@@ -67,21 +67,21 @@
     font-size: 1.2rem;
     padding: 0.3rem 0.8rem;
     border-radius: 3px;
-    background-color: rgba($color-red, 0.12);
-    color: $color-red;
+    background-color: rgba(var(--color-accent-rgb), 0.12);
+    color: var(--color-accent);
   }
 }
 
 .blog-content {
   font-size: 1.7rem;
   line-height: 1.8;
-  color: rgba($color-text, 0.88);
+  color: rgba(var(--color-text-rgb), 0.88);
 
   h2 {
     font-family: 'Canela', Georgia, serif;
     font-size: 3rem;
     font-weight: 700;
-    color: $color-text;
+    color: var(--color-text);
     margin-top: 4rem;
     margin-bottom: 1.5rem;
   }
@@ -90,7 +90,7 @@
     font-family: 'Canela', Georgia, serif;
     font-size: 2.4rem;
     font-weight: 700;
-    color: $color-text;
+    color: var(--color-text);
     margin-top: 3rem;
     margin-bottom: 1rem;
   }
@@ -98,7 +98,7 @@
   h4 {
     font-size: 1.9rem;
     font-weight: 600;
-    color: $color-text;
+    color: var(--color-text);
     margin-top: 2.5rem;
     margin-bottom: 0.8rem;
   }
@@ -108,14 +108,14 @@
   }
 
   a {
-    color: $color-red;
+    color: var(--color-accent);
     text-decoration: underline;
-    text-decoration-color: rgba($color-red, 0.3);
+    text-decoration-color: rgba(var(--color-accent-rgb), 0.3);
     text-underline-offset: 2px;
     transition: text-decoration-color 0.2s;
 
     &:hover {
-      text-decoration-color: $color-red;
+      text-decoration-color: var(--color-accent);
     }
   }
 
@@ -138,12 +138,12 @@
   }
 
   blockquote {
-    border-left: 3px solid $color-red;
+    border-left: 3px solid var(--color-accent);
     padding: 1rem 2rem;
     margin: 2rem 0;
-    background-color: rgba($color-background-light, 0.5);
+    background-color: rgba(var(--color-background-light-rgb), 0.5);
     border-radius: 0 4px 4px 0;
-    color: rgba($color-text, 0.75);
+    color: rgba(var(--color-text-rgb), 0.75);
     font-style: italic;
   }
 
@@ -152,15 +152,15 @@
     font-size: 0.9em;
     padding: 0.2rem 0.5rem;
     border-radius: 3px;
-    background-color: rgba($color-background-light, 0.8);
+    background-color: rgba(var(--color-background-light-rgb), 0.8);
   }
 
   pre {
     margin: 2rem 0;
     border-radius: 6px;
     overflow-x: auto;
-    background-color: rgba($color-background-light, 0.85) !important;
-    border: 1px solid rgba($color-text, 0.12);
+    background-color: rgba(var(--color-background-light-rgb), 0.85) !important;
+    border: 1px solid rgba(var(--color-text-rgb), 0.12);
 
     code {
       display: block;
@@ -180,7 +180,7 @@
 
   hr {
     border: none;
-    border-top: 1px solid rgba($color-text, 0.1);
+    border-top: 1px solid rgba(var(--color-text-rgb), 0.1);
     margin: 3rem 0;
   }
 
@@ -193,18 +193,18 @@
     th, td {
       padding: 1rem 1.2rem;
       text-align: left;
-      border-bottom: 1px solid rgba($color-text, 0.1);
+      border-bottom: 1px solid rgba(var(--color-text-rgb), 0.1);
     }
 
     th {
       font-weight: 600;
-      color: $color-text;
+      color: var(--color-text);
     }
   }
 }
 
 .header-anchor {
-  color: rgba($color-red, 0.4);
+  color: rgba(var(--color-accent-rgb), 0.4);
   text-decoration: none;
   margin-left: 0.5rem;
   font-weight: 400;
@@ -222,7 +222,23 @@
   left: 0;
   width: 0%;
   height: 3px;
-  background: $color-red;
+  background: var(--color-accent);
   z-index: 999999999999;
   transition: width 50ms linear;
+}
+
+// ---------------------------------------------------------------------------
+// hljs dark theme override
+// ---------------------------------------------------------------------------
+
+[data-theme="dark"] .hljs-theme-light {
+  display: none;
+}
+
+[data-theme="dark"] .hljs-theme-dark {
+  display: block;
+}
+
+.hljs-theme-dark {
+  display: none;
 }

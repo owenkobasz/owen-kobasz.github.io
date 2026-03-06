@@ -18,7 +18,7 @@
     transform: translateX(-50%);
     width: 6rem;
     height: 1px;
-    background-color: $color-border;
+    background-color: var(--color-border);
   }
 
   @media (max-width: 1200px) {

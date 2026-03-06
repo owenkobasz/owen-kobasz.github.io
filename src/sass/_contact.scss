@@ -61,7 +61,6 @@
     &-submit {
       align-self: flex-start;
       position: relative;
-      // margin-top: 1.5rem;
       padding: 0.6rem 1rem;
       width: fit-content;
 
@@ -69,22 +68,20 @@
       text-transform: uppercase;
       font-weight: 700;
       letter-spacing: 3px;
-      // border-bottom: 2px solid $color-red;
       z-index: 9;
       cursor: pointer;
 
       &:hover {
-        color: $color-background;
+        color: var(--color-background);
         font-weight: 700;
       }
 
       &:after {
         position: absolute;
         content: '';
-        border-bottom: 2px solid $color-red;
+        border-bottom: 2px solid var(--color-accent);
 
         width: calc(100% + 2rem);
-        // height: 100%;
         left: -14%;
         top: 0.5rem;
         display: block;
@@ -93,8 +90,6 @@
 
         transform-origin: bottom;
         transition: all 0.2s;
-
-        // left: -8rem;
 
         z-index: -1;
       }
@@ -123,7 +118,7 @@
     resize: none;
     border: none;
     color: inherit;
-    background-color: $color-background-light;
+    background-color: var(--color-background-light);
     font-size: 1.6rem;
     font-family: inherit;
 
@@ -145,22 +140,19 @@
 
     &:focus {
       outline: none;
-      border-left: 2px solid $color-red;
+      border-left: 2px solid var(--color-accent);
     }
     &::placeholder {
-      /* Chrome, Firefox, Opera, Safari 10.1+ */
-      color: rgba($color-text, 0.6);
-      opacity: 1; /* Firefox */
+      color: rgba(var(--color-text-rgb), 0.6);
+      opacity: 1;
     }
 
     :-ms-input-placeholder {
-      /* Internet Explorer 10-11 */
-      color: rgba($color-text, 0.6);
+      color: rgba(var(--color-text-rgb), 0.6);
     }
 
     ::-ms-input-placeholder {
-      /* Microsoft Edge */
-      color: rgba($color-text, 0.6);
+      color: rgba(var(--color-text-rgb), 0.6);
     }
   }
 }
@@ -180,12 +172,11 @@
   font-weight: 500;
   line-height: 1.5;
 
-  // all form error messages
   & > * {
     display: none;
   }
 }
 
 .input-error {
-  border-left: 2px solid $color-red !important;
+  border-left: 2px solid var(--color-accent) !important;
 }

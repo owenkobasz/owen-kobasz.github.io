@@ -1,6 +1,3 @@
-// Removed Google Fonts imports since we're using Helvetica
-
-// Canela font face
 @font-face {
   font-family: 'Canela';
   src: url('../assets/fonts/Canela_Collection/Canela Family/Canela-Regular-Trial.otf') format('opentype');
@@ -43,14 +40,38 @@
   font-display: swap;
 }
 
-$color-text: #28221A;
-$color-red: #9E7E2A;
-$color-background: #F0EBE0;
-$color-background-light: #E5DDD0;
-$color-blue: rgb(81, 162, 233);
-$color-blue-dark: rgb(50, 22, 187);
-$color-accent-secondary: #6B7160;
-$color-border: #C8BCA4;
+// ─── Color tokens ─────────────────────────────────────────────────────────────
+
+:root {
+  color-scheme: light dark;
+
+  --color-text:             #28221A;
+  --color-accent:           #9E7E2A;
+  --color-background:       #F0EBE0;
+  --color-background-light: #E5DDD0;
+  --color-border:           #C8BCA4;
+
+  // RGB triplets for rgba() at runtime
+  --color-text-rgb:             40, 34, 26;
+  --color-accent-rgb:           158, 126, 42;
+  --color-background-rgb:       240, 235, 224;
+  --color-background-light-rgb: 229, 221, 208;
+}
+
+[data-theme="dark"] {
+  --color-text:             #E6DDCF;
+  --color-accent:           #BFA04E;
+  --color-background:       #1A1612;
+  --color-background-light: #231E19;
+  --color-border:           #38302A;
+
+  --color-text-rgb:             230, 221, 207;
+  --color-accent-rgb:           191, 160, 78;
+  --color-background-rgb:       26, 22, 18;
+  --color-background-light-rgb: 35, 30, 25;
+}
+
+// ─── Reset ────────────────────────────────────────────────────────────────────
 
 *,
 *::before,
@@ -90,11 +111,12 @@ html {
 
 body {
   min-height: 100vh;
-  color: $color-text;
+  color: var(--color-text);
   font-family: 'Source Serif 4', 'Iowan Old Style', 'Palatino Linotype', Palatino, serif;
-  background-color: $color-background;
+  background-color: var(--color-background);
   line-height: 1.7;
   overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 li {

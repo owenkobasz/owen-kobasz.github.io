@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   height: 160px;
-  background-color: $color-background-light;
+  background-color: var(--color-background-light);
 }
 
 .socials {
@@ -22,7 +22,6 @@
 
     background-color: transparent;
     cursor: pointer;
-    // border: 2px solid $color-background;
     transition: all 0.2s;
 
     &:hover {
@@ -32,7 +31,7 @@
 
   &__github {
     margin-left: 1rem;
-    
+
     & img {
       height: 100%;
       width: auto;
@@ -41,7 +40,7 @@
   }
   &__email {
     margin-left: 1rem;
-    
+
     & img {
       height: 100%;
       width: auto;
@@ -50,7 +49,7 @@
   }
   &__linkedin {
     margin-left: 1rem;
-    
+
     & img {
       height: 100%;
       width: auto;
@@ -64,8 +63,12 @@
   }
 }
 
+[data-theme="dark"] .socials img {
+  filter: brightness(0) invert(1);
+}
+
 .copyright {
-  color: $color-text;
+  color: var(--color-text);
   font-size: 10px;
   font-weight: 500;
 }
@@ -84,7 +87,8 @@
   right: 0;
   text-align: center;
 
-  background-color: $color-red;
+  background-color: var(--color-accent);
+  color: #28221A;
 
   -webkit-animation-duration: 1s;
   animation-duration: 1s;

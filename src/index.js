@@ -5,6 +5,7 @@ import Typed from 'typed.js';
 import { sendEmail } from './emailjs.js';
 import { initSkillTooltips } from './tooltip.js';
 import AIHeroModal from './aiHeroModal.js';
+import { toggleTheme } from './theme.js';
 
 // Import all images
 import htmlImg from './assets/html.png';
@@ -516,6 +517,25 @@ window.onload = function () {
     
     // Initialize skill tooltips
     initSkillTooltips();
+
+    // Theme toggle
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            toggleTheme(applyColorsToSkills);
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            themeToggleBtn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+        });
+        const isDarkInit = document.documentElement.getAttribute('data-theme') === 'dark';
+        themeToggleBtn.setAttribute('aria-label', isDarkInit ? 'Switch to light mode' : 'Switch to dark mode');
+    }
+
+    // Re-apply skill colors when system color scheme changes and no stored preference
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (!localStorage.getItem('portfolio-theme')) {
+            applyColorsToSkills();
+        }
+    });
 
     const scrollIndicator = document.getElementById('scroll-indicator');
     if (scrollIndicator) {

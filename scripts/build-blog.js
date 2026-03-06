@@ -173,7 +173,7 @@ function loadPosts() {
 function buildPosts(posts) {
     const template = readTemplate('post.html');
     const analytics = analyticsSnippet();
-    const hljsCss = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" />`;
+    const hljsCss = `<link rel="stylesheet" class="hljs-theme-light" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" /><link rel="stylesheet" class="hljs-theme-dark" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />`;
 
     for (const post of posts) {
         const html = md.render(post.rawContent);
