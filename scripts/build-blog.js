@@ -20,6 +20,7 @@ const ANALYTICS_ID = process.env.ANALYTICS_ID || '';
 
 const ROOT = path.resolve(__dirname, '..');
 const POSTS_DIR = path.join(ROOT, 'src', 'blog', 'posts');
+const POSTS_IMAGES_DIR = path.join(POSTS_DIR, 'images');
 const TEMPLATES_DIR = path.join(ROOT, 'src', 'blog', 'templates');
 const SASS_ENTRY = path.join(ROOT, 'src', 'sass', 'blog-bundle.scss');
 const DIST = path.join(ROOT, 'dist');
@@ -116,6 +117,33 @@ function copyStaticAssets() {
         if (fs.existsSync(src) && !fs.existsSync(dest)) {
             fs.copyFileSync(src, dest);
         }
+    }
+}
+
+function copyDirRecursive(srcDir, destDir) {
+    if (!fs.existsSync(srcDir)) return;
+    fs.mkdirSync(destDir, { recursive: true });
+
+    for (const entry of fs.readdirSync(srcDir, { withFileTypes: true })) {
+        const srcPath = path.join(srcDir, entry.name);
+        const destPath = path.join(destDir, entry.name);
+
+        if (entry.isDirectory()) {
+            copyDirRecursive(srcPath, destPath);
+            continue;
+        }
+
+        if (entry.isFile()) {
+            fs.copyFileSync(srcPath, destPath);
+        }
+    }
+}
+
+function copyPostImages() {
+    const outDir = path.join(BLOG_DIST, 'images');
+    copyDirRecursive(POSTS_IMAGES_DIR, outDir);
+    if (fs.existsSync(outDir)) {
+        console.log('  /blog/images/ copied');
     }
 }
 
@@ -292,6 +320,7 @@ function main() {
 
     compileSCSS();
     copyStaticAssets();
+    copyPostImages();
 
     const posts = loadPosts();
     console.log(`Found ${posts.length} published post(s)`);
