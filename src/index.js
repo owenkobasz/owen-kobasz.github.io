@@ -25,6 +25,7 @@ import aboutImg from './assets/about.jpg';
 import turboImg from './assets/turbo.jpg';
 import cycloneImg from './assets/cyclone.jpg';
 import spindleImg from './assets/spindle.jpg';
+import checkpointImg from './assets/checkpoint.jpg';
 import clipboardImg from './assets/clipboard.svg';
 import briefcaseImg from './assets/briefcase-2.svg';
 import webdev from './assets/web-dev.svg';
@@ -499,6 +500,7 @@ window.onload = function () {
     document.querySelector('img[data-project="cyclone"]').src = cycloneImg;
     document.querySelector('img[data-project="turbo"]').src = turboImg;
     document.querySelector('img[data-project="spindle"]').src = spindleImg;
+    document.querySelector('img[data-project="checkpoint"]').src = checkpointImg;
 
     // Footer images
     document.querySelector('.socials__github img').src = githubLogoImg;
