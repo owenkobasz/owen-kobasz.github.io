@@ -228,12 +228,18 @@ function buildIndex(posts) {
         const tagsHtml = (post.tags && post.tags.length)
             ? `<div class="post-card__tags">${post.tags.map(t => `<span class="post-card__tag">${t}</span>`).join('')}</div>`
             : '';
+        const imageHtml = post.image
+            ? `<div class="post-card__image"><img src="${post.image}" alt="${escapeXml(post.title)}" loading="lazy" /></div>`
+            : '';
         return `
-            <a href="/blog/${post.slug}" class="post-card">
-                <div class="post-card__date">${dateFormatted}</div>
-                <h2 class="post-card__title">${escapeXml(post.title)}</h2>
-                <p class="post-card__description">${escapeXml(post.description || '')}</p>
-                ${tagsHtml}
+            <a href="/blog/${post.slug}" class="post-card${post.image ? ' post-card--has-image' : ''}">
+                ${imageHtml}
+                <div class="post-card__body">
+                    <div class="post-card__date">${dateFormatted}</div>
+                    <h2 class="post-card__title">${escapeXml(post.title)}</h2>
+                    <p class="post-card__description">${escapeXml(post.description || '')}</p>
+                    ${tagsHtml}
+                </div>
             </a>`;
     }).join('\n');
 

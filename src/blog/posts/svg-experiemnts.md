@@ -4,7 +4,7 @@ date: 2026-03-5
 description: "Bike Part Picker #1: SVG Experiments"
 tags: [dev, bike part picker, svg]
 author: Owen Kobasz
-image: /blog/images/road_rim_brake_pre_edit.svg
+image: /blog/images/road_rim_brake_chopped.svg
 draft: false
 ---
 

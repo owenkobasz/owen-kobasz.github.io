@@ -4,7 +4,7 @@ date: 2026-05-4
 description: "An LLM Powered Terminal Calendar Assistant."
 tags: [dev, terminal, llm, agent]
 author: Owen Kobasz
-image: 
+image: /blog/images/cleo-header.png
 draft: false
 ---
 
@@ -12,7 +12,7 @@ draft: false
 
 # An LLM Powered Calendar Assistant
 
-Cleopatra, or Cleo for short, is a terminal-based, AI-powered personal calendar assistant that I built to help manage and update my schedule with natural language instructions. This is not a new idea, and there are plenty of SaaS options that effectively do the same thing, but I wanted something lightweight that I could have full control over and run cheaply. It is built just for me and assumes my setup, calendar habits, and workflow. Traditionally, that would be seen as a failure of the program, the inability to scale, but I want to push on that a bit and propose it as a feature.
+[Cleopatra](https://github.com/owenkobasz/cleo), or Cleo for short, is a terminal-based, AI-powered personal calendar assistant that I built to help manage and update my schedule with natural language instructions. This is not a new idea, and there are plenty of SaaS options that effectively do the same thing, but I wanted something lightweight that I could have full control over and run cheaply. It is built just for me and assumes my setup, calendar habits, and workflow. Traditionally, that would be seen as a failure of the program, the inability to scale, but I want to push on that a bit and propose it as a feature.
 
 I think one of the biggest changes we are going to see in the coming years is software becoming increasingly customized and tailored to the individual user. This is in contrast to the current state of software which is largely built around broad user archetypes, which, in practice, means that individuals and teams often have to contort their workflows to match the tools they are using. As it stands it's easier for them to adapt to the tools than for the tools to adapt to them. I think that this is one of the biggest things that will change as we enter the AI era.
 
