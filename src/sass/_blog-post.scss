@@ -227,18 +227,3 @@
   transition: width 50ms linear;
 }
 
-// ---------------------------------------------------------------------------
-// hljs dark theme override
-// ---------------------------------------------------------------------------
-
-[data-theme="dark"] .hljs-theme-light {
-  display: none;
-}
-
-[data-theme="dark"] .hljs-theme-dark {
-  display: block;
-}
-
-.hljs-theme-dark {
-  display: none;
-}

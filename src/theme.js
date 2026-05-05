@@ -9,6 +9,10 @@ function getInitialTheme() {
 function applyTheme(theme, callback) {
   document.documentElement.setAttribute('data-theme', theme);
   localStorage.setItem(STORAGE_KEY, theme);
+  const lightLink = document.querySelector('.hljs-theme-light');
+  const darkLink = document.querySelector('.hljs-theme-dark');
+  if (lightLink) lightLink.disabled = theme === 'dark';
+  if (darkLink) darkLink.disabled = theme === 'light';
   if (callback) requestAnimationFrame(callback);
 }
 
