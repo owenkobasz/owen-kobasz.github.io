@@ -1,5 +1,5 @@
 ---
-title: "Building Cleo"
+title: "Cleopatra"
 date: 2026-05-4
 description: "An LLM Powered Terminal Calendar Assistant."
 tags: [dev, terminal, llm, agent]

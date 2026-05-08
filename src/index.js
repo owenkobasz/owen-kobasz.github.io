@@ -25,7 +25,7 @@ import aboutImg from './assets/images/about.jpg';
 import turboImg from './assets/images/projects/turbo_new.png';
 import cycloneImg from './assets/images/projects/cyclone.png';
 import spindleImg from './assets/images/projects/spindle.jpg';
-import checkpointImg from './assets/images/projects/checkpoint.jpg';
+import checkpointImg from './assets/images/projects/checkpoint.png';
 import clipboardImg from './assets/icons/ui/clipboard.svg';
 import briefcaseImg from './assets/icons/ui/briefcase-2.svg';
 import webdev from './assets/icons/ui/web-dev.svg';

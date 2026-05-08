@@ -1,5 +1,5 @@
 ---
-title: "Building Cyclone"
+title: "Cyclone"
 date: 2026-05-7
 description: "Where Optimization Ends."
 tags: [dev, react, llm, cycling]
