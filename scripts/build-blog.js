@@ -108,14 +108,21 @@ function compileSCSS() {
 }
 
 function copyStaticAssets() {
-    const assets = ['menu.svg', 'fav.png', 'github-logo.png', 'mail.png', 'linkedin-logo.svg', 'home.svg'];
+    const assets = [
+        { src: 'icons/ui/menu.svg',           dest: 'menu.svg' },
+        { src: 'images/favicons/fav.png',      dest: 'fav.png' },
+        { src: 'icons/social/github-logo.png', dest: 'github-logo.png' },
+        { src: 'icons/social/mail.png',        dest: 'mail.png' },
+        { src: 'icons/social/linkedin-logo.svg', dest: 'linkedin-logo.svg' },
+        { src: 'icons/ui/home.svg',            dest: 'home.svg' },
+    ];
     const assetsDistDir = path.join(DIST, 'assets');
     fs.mkdirSync(assetsDistDir, { recursive: true });
-    for (const file of assets) {
-        const src = path.join(ROOT, 'src', 'assets', file);
-        const dest = path.join(assetsDistDir, file);
-        if (fs.existsSync(src) && !fs.existsSync(dest)) {
-            fs.copyFileSync(src, dest);
+    for (const { src: srcFile, dest } of assets) {
+        const src = path.join(ROOT, 'src', 'assets', srcFile);
+        const destPath = path.join(assetsDistDir, dest);
+        if (fs.existsSync(src) && !fs.existsSync(destPath)) {
+            fs.copyFileSync(src, destPath);
         }
     }
 }

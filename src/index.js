@@ -8,34 +8,34 @@ import AIHeroModal from './aiHeroModal.js';
 import { toggleTheme } from './theme.js';
 
 // Import all images
-import htmlImg from './assets/html.png';
-import unrealImg from './assets/unreal.svg';
-import brainEngineImg from './assets/brain-engine.svg';
-import jsImg from './assets/js.png';
-import cssImg from './assets/css.png';
-import dockerImg from './assets/docker.svg';
-import globeImg from './assets/globe.svg';
-import pythonImg from './assets/snake.svg';
-import sqlSvgImg from './assets/SQL.svg';
-import puzzleImg from './assets/puzzle.svg';
-import githubLogoImg from './assets/github-logo.png';
-import mailImg from './assets/mail.png';
-import linkedinLogoImg from './assets/linkedin_logo.png';
-import aboutImg from './assets/about.jpg';
-import turboImg from './assets/turbo.jpg';
-import cycloneImg from './assets/cyclone.jpg';
-import spindleImg from './assets/spindle.jpg';
-import checkpointImg from './assets/checkpoint.jpg';
-import clipboardImg from './assets/clipboard.svg';
-import briefcaseImg from './assets/briefcase-2.svg';
-import webdev from './assets/web-dev.svg';
-import algorithms from './assets/Algorithms.svg';
-import serverImg from './assets/server.svg';
-import annunciationImg from './assets/Annunciation.png';
+import htmlImg from './assets/icons/tech/html.png';
+import unrealImg from './assets/icons/tech/unreal.svg';
+import brainEngineImg from './assets/icons/ui/brain-engine.svg';
+import jsImg from './assets/icons/tech/js.png';
+import cssImg from './assets/icons/tech/css.png';
+import dockerImg from './assets/icons/tech/docker.svg';
+import globeImg from './assets/icons/ui/globe.svg';
+import pythonImg from './assets/icons/tech/snake.svg';
+import sqlSvgImg from './assets/icons/tech/SQL.svg';
+import puzzleImg from './assets/icons/ui/puzzle.svg';
+import githubLogoImg from './assets/icons/social/github-logo.png';
+import mailImg from './assets/icons/social/mail.png';
+import linkedinLogoImg from './assets/icons/social/linkedin_logo.png';
+import aboutImg from './assets/images/about.jpg';
+import turboImg from './assets/images/projects/turbo_new.png';
+import cycloneImg from './assets/images/projects/cyclone.png';
+import spindleImg from './assets/images/projects/spindle.jpg';
+import checkpointImg from './assets/images/projects/checkpoint.jpg';
+import clipboardImg from './assets/icons/ui/clipboard.svg';
+import briefcaseImg from './assets/icons/ui/briefcase-2.svg';
+import webdev from './assets/icons/ui/web-dev.svg';
+import algorithms from './assets/icons/ui/Algorithms.svg';
+import serverImg from './assets/icons/ui/server.svg';
+import annunciationImg from './assets/images/Annunciation.png';
 
 
 // Import resume
-import resumeFile from './assets/resume.pdf';
+import resumeFile from './assets/docs/resume.pdf';
 
 // Color palette for skills section
 const skillColors = {

@@ -5,7 +5,7 @@ description: "Blog post #1: Intentions"
 tags: [meta]
 author: Owen Kobasz
 image:
-draft: false
+draft: true
 ---
 
 I’ve been meaning to start a blog for a while, and it felt like a good excuse to redesign my site.
