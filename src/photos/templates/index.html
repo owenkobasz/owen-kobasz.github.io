@@ -3,60 +3,33 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{title}} | Owen Kobasz</title>
-    <meta name="description" content="{{description}}" />
-    <link rel="canonical" href="{{canonical_url}}" />
+    <title>Photos | Owen Kobasz</title>
+    <meta name="description" content="Photo albums — cycling, travel, and life outdoors." />
+    <link rel="canonical" href="{{site_url}}/photos" />
     <link rel="icon" href="/assets/fav.png" sizes="32x32" type="image/png" />
 
     <!-- Open Graph -->
-    <meta property="og:title" content="{{title}}" />
-    <meta property="og:description" content="{{description}}" />
-    <meta property="og:url" content="{{canonical_url}}" />
-    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Photos | Owen Kobasz" />
+    <meta property="og:description" content="Photo albums — cycling, travel, and life outdoors." />
+    <meta property="og:url" content="{{site_url}}/photos" />
+    <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Owen Kobasz" />
-    {{og_image_tag}}
+    {{og_image_block}}
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="{{title}}" />
-    <meta name="twitter:description" content="{{description}}" />
-    {{twitter_image_tag}}
-
-    <!-- RSS -->
-    <link rel="alternate" type="application/rss+xml" title="Owen Kobasz Blog" href="/blog/rss.xml" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Photos | Owen Kobasz" />
+    <meta name="twitter:description" content="Photo albums — cycling, travel, and life outdoors." />
 
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F0EBE0" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#1A1612" />
     <script>(function(){var t=localStorage.getItem('portfolio-theme');var d=window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',(t==='dark'||t==='light')?t:(d?'dark':'light'));})();</script>
 
-    <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "{{title}}",
-        "description": "{{description}}",
-        "datePublished": "{{date_iso}}",
-        "author": {
-            "@type": "Person",
-            "name": "{{author}}"
-        },
-        "url": "{{canonical_url}}",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "{{canonical_url}}"
-        }
-    }
-    </script>
-
-    <link rel="stylesheet" href="/blog.css" />
-    {{highlight_css}}
+    <link rel="stylesheet" href="/photos.css" />
 
     {{analytics_snippet}}
 </head>
 <body>
-    <div class="reading-progress" id="reading-progress"></div>
-
     <header class="blog-nav">
         <button class="blog-theme-toggle" id="blog-theme-toggle" type="button" aria-label="Switch to dark mode">
             <svg class="blog-theme-toggle__icon blog-theme-toggle__icon--moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -73,27 +46,22 @@
             <li><a href="/" class="blog-nav-overlay__link">Home</a></li>
             <li><a href="/#about" class="blog-nav-overlay__link">About</a></li>
             <li><a href="/#projects" class="blog-nav-overlay__link">Projects</a></li>
-            <li><a href="/blog" class="blog-nav-overlay__link blog-nav-overlay__link--active">Blog</a></li>
-            <li><a href="/photos" class="blog-nav-overlay__link">Photos</a></li>
+            <li><a href="/blog" class="blog-nav-overlay__link">Blog</a></li>
+            <li><a href="/photos" class="blog-nav-overlay__link blog-nav-overlay__link--active">Photos</a></li>
             <li><a href="/#contact" class="blog-nav-overlay__link">Contact</a></li>
         </ul>
     </div>
 
-    <article class="blog-post">
-        <header class="blog-post__header">
-            <a href="/blog" class="blog-post__back">&larr; All posts</a>
-            <h1 class="blog-post__title">{{title}}</h1>
-            <div class="blog-post__meta">
-                <time class="blog-post__date" datetime="{{date_iso}}">{{date_formatted}}</time>
-                <span class="blog-post__reading-time">{{reading_time}} min read</span>
-            </div>
-            {{tags_html}}
+    <main class="blog-listing">
+        <header class="blog-listing__header">
+            <h1 class="blog-listing__title">Photos</h1>
+            <p class="blog-listing__description">Photo albums — cycling, travel, and life outdoors.</p>
         </header>
 
-        <div class="blog-content">
-            {{content}}
+        <div class="blog-listing__posts">
+            {{albums_html}}
         </div>
-    </article>
+    </main>
 
     <footer class="footer">
         <a href="/">
@@ -123,15 +91,6 @@
 
     <script>
     (function() {
-        var bar = document.getElementById('reading-progress');
-        if (bar) {
-            window.addEventListener('scroll', function() {
-                var h = document.documentElement;
-                var pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
-                bar.style.width = Math.min(pct, 100) + '%';
-            }, { passive: true });
-        }
-
         var overlay  = document.getElementById('blog-nav-overlay');
         var toggle   = document.getElementById('blog-nav-toggle');
         var closeBtn = document.getElementById('blog-nav-close');

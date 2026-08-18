@@ -6,19 +6,19 @@ const matter = require('gray-matter');
 const MarkdownIt = require('markdown-it');
 const markdownItAnchor = require('markdown-it-anchor');
 const hljs = require('highlight.js');
-const sass = require('sass');
 
 require('dotenv').config();
+
+const { formatDate, toISODate, escapeXml, analyticsSnippet, compileSCSS, copyStaticAssets } = require('./lib/shared');
 
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------
 
 const SITE_URL = process.env.SITE_URL || 'https://owenkobasz.com';
-const ANALYTICS_PROVIDER = (process.env.ANALYTICS_PROVIDER || 'none').toLowerCase();
-const ANALYTICS_ID = process.env.ANALYTICS_ID || '';
 
 const ROOT = path.resolve(__dirname, '..');
+const PHOTOS_URLS_FILE = path.join(ROOT, '.photos-cache', 'urls.json');
 const POSTS_DIR = path.join(ROOT, 'src', 'blog', 'posts');
 const POSTS_IMAGES_DIR = path.join(POSTS_DIR, 'images');
 const TEMPLATES_DIR = path.join(ROOT, 'src', 'blog', 'templates');
@@ -48,24 +48,6 @@ const md = new MarkdownIt({
 });
 
 // ---------------------------------------------------------------------------
-// Analytics snippet builder
-// ---------------------------------------------------------------------------
-
-function analyticsSnippet() {
-    if (ANALYTICS_PROVIDER === 'plausible' && ANALYTICS_ID) {
-        return `<script defer data-domain="${ANALYTICS_ID}" src="https://plausible.io/js/script.js"></script>`;
-    }
-    if (ANALYTICS_PROVIDER === 'gtag' && ANALYTICS_ID) {
-        return [
-            `<script async src="https://www.googletagmanager.com/gtag/js?id=${ANALYTICS_ID}"></script>`,
-            `<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}`,
-            `gtag('js',new Date());gtag('config','${ANALYTICS_ID}');</script>`
-        ].join('\n');
-    }
-    return '<!-- analytics: none configured -->';
-}
-
-// ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
@@ -76,55 +58,6 @@ function readTemplate(name) {
 function estimateReadingTime(text) {
     const words = text.trim().split(/\s+/).length;
     return Math.max(1, Math.round(words / 230));
-}
-
-function formatDate(d) {
-    const date = new Date(d);
-    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-}
-
-function toISODate(d) {
-    return new Date(d).toISOString().split('T')[0];
-}
-
-function escapeXml(s) {
-    return String(s)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&apos;');
-}
-
-// ---------------------------------------------------------------------------
-// Compile SCSS
-// ---------------------------------------------------------------------------
-
-function compileSCSS() {
-    const result = sass.compile(SASS_ENTRY, { style: 'compressed', silenceDeprecations: ['import'] });
-    fs.mkdirSync(DIST, { recursive: true });
-    fs.writeFileSync(path.join(DIST, 'blog.css'), result.css);
-    console.log('  blog.css compiled');
-}
-
-function copyStaticAssets() {
-    const assets = [
-        { src: 'icons/ui/menu.svg',           dest: 'menu.svg' },
-        { src: 'images/favicons/fav.png',      dest: 'fav.png' },
-        { src: 'icons/social/github-logo.png', dest: 'github-logo.png' },
-        { src: 'icons/social/mail.png',        dest: 'mail.png' },
-        { src: 'icons/social/linkedin-logo.svg', dest: 'linkedin-logo.svg' },
-        { src: 'icons/ui/home.svg',            dest: 'home.svg' },
-    ];
-    const assetsDistDir = path.join(DIST, 'assets');
-    fs.mkdirSync(assetsDistDir, { recursive: true });
-    for (const { src: srcFile, dest } of assets) {
-        const src = path.join(ROOT, 'src', 'assets', srcFile);
-        const destPath = path.join(assetsDistDir, dest);
-        if (fs.existsSync(src) && !fs.existsSync(destPath)) {
-            fs.copyFileSync(src, destPath);
-        }
-    }
 }
 
 function copyDirRecursive(srcDir, destDir) {
@@ -161,16 +94,30 @@ function copyPostImages() {
 function loadPosts() {
     if (!fs.existsSync(POSTS_DIR)) return [];
 
-    return fs.readdirSync(POSTS_DIR)
-        .filter(f => f.endsWith('.md'))
-        .map(filename => {
-            const raw = fs.readFileSync(path.join(POSTS_DIR, filename), 'utf-8');
-            const { data, content } = matter(raw);
-            const slug = filename.replace(/\.md$/, '');
-            return { ...data, slug, rawContent: content };
-        })
-        .filter(p => !p.draft)
-        .sort((a, b) => new Date(b.date) - new Date(a.date));
+    const posts = [];
+    for (const filename of fs.readdirSync(POSTS_DIR)) {
+        if (!filename.endsWith('.md')) continue;
+        const raw = fs.readFileSync(path.join(POSTS_DIR, filename), 'utf-8');
+        let parsed;
+        try {
+            parsed = matter(raw);
+        } catch (e) {
+            console.warn(`  WARN: skipping ${filename} — unparseable frontmatter (${e.message})`);
+            continue;
+        }
+        const { data, content } = parsed;
+        if (!data.title) {
+            console.warn(`  WARN: skipping ${filename} — missing title in frontmatter`);
+            continue;
+        }
+        if (!data.date || isNaN(new Date(data.date))) {
+            console.warn(`  WARN: skipping ${filename} — missing or invalid date in frontmatter`);
+            continue;
+        }
+        if (data.draft) continue;
+        posts.push({ ...data, slug: filename.replace(/\.md$/, ''), rawContent: content });
+    }
+    return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
 // ---------------------------------------------------------------------------
@@ -296,6 +243,20 @@ ${items}
 // Generate sitemap.xml
 // ---------------------------------------------------------------------------
 
+function loadPhotoUrls() {
+    if (!fs.existsSync(PHOTOS_URLS_FILE)) {
+        console.warn('  WARN: no photo URLs found (.photos-cache/urls.json) — sitemap will omit /photos; run build:photos first');
+        return [];
+    }
+    try {
+        const parsed = JSON.parse(fs.readFileSync(PHOTOS_URLS_FILE, 'utf-8'));
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+        console.warn(`  WARN: could not read photo URLs (${e.message}) — sitemap will omit /photos`);
+        return [];
+    }
+}
+
 function buildSitemap(posts) {
     const staticUrls = [
         { loc: SITE_URL, priority: '1.0' },
@@ -308,7 +269,7 @@ function buildSitemap(posts) {
         priority: '0.6',
     }));
 
-    const urls = [...staticUrls, ...postUrls].map(u => {
+    const urls = [...staticUrls, ...loadPhotoUrls(), ...postUrls].map(u => {
         let entry = `  <url>\n    <loc>${u.loc}</loc>`;
         if (u.lastmod) entry += `\n    <lastmod>${u.lastmod}</lastmod>`;
         entry += `\n    <priority>${u.priority}</priority>\n  </url>`;
@@ -331,8 +292,8 @@ ${urls}
 function main() {
     console.log('Building blog...');
 
-    compileSCSS();
-    copyStaticAssets();
+    compileSCSS(SASS_ENTRY, path.join(DIST, 'blog.css'));
+    copyStaticAssets(DIST);
     copyPostImages();
 
     const posts = loadPosts();

@@ -10,6 +10,7 @@ Built to showcase my work as a software engineer. Vanilla JavaScript, Webpack, a
 - **Typed.js integration** — cycling subtitle animation in the hero
 - **Skill tooltips** — hover/tap tooltips on each skill tile in the About section
 - **Blog** — static Markdown blog at `/blog`
+- **Photo albums** — static photo gallery at `/photos` with build-time image resizing
 - **EmailJS contact form**
 - **Responsive design**
 
@@ -52,6 +53,23 @@ The hero section loads a random painting from [The Met's Open Access collection]
 - An attribution panel shows the painting's title (linked to the Met's page), artist, and date
 
 **Relevant files:** `src/index.js` (all fetch logic), `src/sass/_header.scss` (attribution panel), `src/sass/_ai-hero.scss` (button styles).
+
+## Photo Albums
+
+Albums live in `src/photos/albums/<album-slug>/` — the folder name is the URL slug and must be kebab-case (`a-z`, `0-9`, dashes). Each album is a folder of photos plus an `album.md`:
+
+```yaml
+---
+title: "Desert Rides"
+date: 2026-03-14
+description: "A weekend in the backcountry."
+cover: DSC01267.jpg      # optional; defaults to first image
+order: [DSC01267.jpg]    # optional; listed first, rest sorted by filename
+draft: false
+---
+```
+
+`npm run build:photos` (part of `npm run build`) resizes every photo with sharp into grid thumbnails (1000 px) and lightbox versions (2000 px), strips EXIF (including GPS), auto-rotates, and generates `/photos` plus one page per album with a justified grid and lightbox. Accepted formats: `.jpg`, `.jpeg`, `.png` (always output as JPEG). Resized images are cached in `.photos-cache/` (content-hashed, gitignored) so unchanged photos never reprocess; CI caches this directory too. `npm run watch:photos` rebuilds on change.
 
 ## Contact Form (EmailJS)
 

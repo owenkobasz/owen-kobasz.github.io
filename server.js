@@ -21,6 +21,8 @@ app.use(express.json({ limit: '10mb' }));
 // Serve blog static files (dev and prod — blog builds to dist/)
 app.use('/blog', express.static(path.join(__dirname, 'dist', 'blog')));
 app.use('/blog.css', express.static(path.join(__dirname, 'dist', 'blog.css')));
+app.use('/photos', express.static(path.join(__dirname, 'dist', 'photos')));
+app.use('/photos.css', express.static(path.join(__dirname, 'dist', 'photos.css')));
 app.use('/assets/blog', express.static(path.join(__dirname, 'dist', 'assets', 'blog')));
 app.use('/sitemap.xml', express.static(path.join(__dirname, 'dist', 'sitemap.xml')));
 
@@ -326,7 +328,7 @@ app.get('/api/met/objects/:id', async (req, res) => {
 // Serve index.html for all non-API, non-blog routes in production (SPA fallback)
 if (isProduction) {
     app.get('*', (req, res) => {
-        if (req.path.startsWith('/api') || req.path.startsWith('/blog')) {
+        if (req.path.startsWith('/api') || req.path.startsWith('/blog') || req.path.startsWith('/photos')) {
             return res.status(404).json({ error: 'Not found' });
         }
         res.sendFile(path.join(__dirname, 'dist', 'index.html'));

@@ -5,9 +5,12 @@
     "dev:client": "webpack serve --config webpack.dev.js --mode development",
     "serve": "npm run dev",
     "start": "NODE_ENV=production node server.js",
-    "build": "webpack --config webpack.prod.js --mode production && npm run build:blog",
+    "build": "webpack --config webpack.prod.js --mode production && npm run build:photos && npm run build:blog",
     "build:blog": "node scripts/build-blog.js",
+    "build:photos": "node scripts/build-photos.js",
     "watch:blog": "nodemon --watch src/blog/posts --watch src/blog/templates --ext md,html --exec \"npm run build:blog\"",
+    "watch:photos": "nodemon --watch src/photos --watch src/sass --ext md,html,jpg,jpeg,png,scss --exec \"npm run build:photos\"",
+    "test": "node --test \"scripts/**/*.test.js\"",
     "build:start": "npm run build && npm run start"
   },
   "devDependencies": {
@@ -23,6 +26,7 @@
     "nodemon": "^3.1.14",
     "sass": "^1.90.0",
     "sass-loader": "^16.0.5",
+    "sharp": "^0.35.3",
     "style-loader": "^4.0.0",
     "webpack": "^5.101.0",
     "webpack-cli": "^6.0.1",
